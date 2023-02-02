@@ -1,0 +1,141 @@
+[debug] > Exec(early(addDefaultCommands), None, None)
+[debug] > Exec(addDefaultCommands, None, None)
+[debug] > Exec(early(initialize), None, None)
+[debug] > Exec(initialize, None, None)
+[debug] > Exec(early(addPluginSbtFile="""C:\Users\ilmar\AppData\Local\Temp\idea2.sbt"""), None, None)
+[debug] > Exec(addPluginSbtFile="""C:\Users\ilmar\AppData\Local\Temp\idea2.sbt""", None, None)
+[debug] > Exec(boot, None, None)
+[debug] > Exec(writeSbtVersion, None, None)
+[debug] > Exec(reload, None, None)
+[debug] > Exec(sbtStashOnFailure, None, None)
+[debug] > Exec(onFailure loadFailed, None, None)
+[debug] > Exec(loadp, None, None)
+[info] welcome to sbt 1.8.2 (Amazon.com Inc. Java 17.0.4.1)
+[debug]       Load.loadUnit: plugins took 116.5541ms
+[debug]       Load.loadUnit: defsScala took 0.483ms
+[debug] [Loading] Scanning directory C:\Users\ilmar\.sbt\1.0\plugins
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in C:\Users\ilmar\.sbt\1.0\plugins, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 21.3172 ms
+[debug]           Load.resolveProject(global-plugins) took 54.1809ms
+[debug]         Load.loadTransitive: finalizeProject(Project(id global-plugins, base: C:\Users\ilmar\.sbt\1.0\plugins, plugins: List(<none>))) took 103.8848ms
+[debug] [Loading] Done in C:\Users\ilmar\.sbt\1.0\plugins, returning: (global-plugins)
+[debug]       Load.loadUnit: loadedProjectsRaw took 130.8235ms
+[debug]       Load.loadUnit: cleanEvalClasses took 0.4115ms
+[debug]     Load.loadUnit(file:/C:/Users/ilmar/.sbt/1.0/plugins/, ...) took 264.6147ms
+[debug]   Load.apply: load took 460.1527ms
+[debug]   Load.apply: resolveProjects took 5.9481ms
+[debug]   Load.apply: finalTransforms took 58.275ms
+[debug]   Load.apply: config.delegates took 7.9238ms
+[debug]   Load.apply: Def.make(settings)... took 372.1946ms
+[debug]   Load.apply: structureIndex took 100.2523ms
+[debug]   Load.apply: mkStreams took 1.6612ms
+[info] loading global plugins from C:\Users\ilmar\.sbt\1.0\plugins
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug] Load.defaultLoad until apply took 2190.0441ms
+[debug]           Load.loadUnit: plugins took 29.0399ms
+[debug]           Load.loadUnit: defsScala took 0.0048ms
+[debug] [Loading] Scanning directory C:\Users\ilmar\Documents\Aalto\StrategyGame\project
+[debug]             Load.loadUnit: mkEval took 5.3048ms
+[debug] [Loading] Found non-root projects 
+[debug] [Loading] Done in C:\Users\ilmar\Documents\Aalto\StrategyGame\project, returning: ()
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.MiniDependencyTreePlugin,sbt.plugins.JUnitXmlReportPlugin,sbt.plugins.SemanticdbPlugin)
+[debug] Plugins.deducer#function took 1.8214 ms
+[info] loading settings for project strategygame-build from idea2.sbt ...
+[debug]               Load.resolveProject(strategygame-build) took 3.3873ms
+[debug]             Load.loadTransitive: finalizeProject(Project(id strategygame-build, base: C:\Users\ilmar\Documents\Aalto\StrategyGame\project, plugins: List(<none>))) took 5.7455ms
+[debug] [Loading] Done in C:\Users\ilmar\Documents\Aalto\StrategyGame\project, returning: (strategygame-build)
+[debug]           Load.loadUnit: loadedProjectsRaw took 139.6116ms
+[debug]           Load.loadUnit: cleanEvalClasses took 6.3854ms
+[debug]         Load.loadUnit(file:/C:/Users/ilmar/Documents/Aalto/StrategyGame/project/, ...) took 176.2486ms
+[debug]       Load.apply: load took 178.0573ms
+[debug]       Load.apply: resolveProjects took 0.1325ms
+[debug]       Load.apply: finalTransforms took 9.5685ms
+[debug]       Load.apply: config.delegates took 0.4109ms
+[debug]       Load.apply: Def.make(settings)... took 75.7799ms
+[debug]       Load.apply: structureIndex took 28.206ms
+[debug]       Load.apply: mkStreams took 0.0022ms
+[info] loading project definition from C:\Users\ilmar\Documents\Aalto\StrategyGame\project
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[debug]     Load.loadUnit: plugins took 531.8607ms
+[debug]     Load.loadUnit: defsScala took 0.0028ms
+[debug] [Loading] Scanning directory C:\Users\ilmar\Documents\Aalto\StrategyGame
+[debug]       Load.loadUnit: mkEval took 0.2863ms
+[debug] [Loading] Found root project root w/ remaining 
+[debug] deducing auto plugins based on known facts Set(Atom(sbt.plugins.CorePlugin)) and clauses Clauses(Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.ScriptedPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.SbtPlugin),Set(Atom(sbt.ScriptedPlugin)))
+[debug] Clause(Atom(sbt.plugins.SemanticdbPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JUnitXmlReportPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.MiniDependencyTreePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(org.jetbrains.sbt.StructurePlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(org.jetbrains.sbt.IdeaShellPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(org.jetbrains.sbt.indices.SbtIntellijIndicesPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.IvyPlugin)))
+[debug] Clause(Atom(sbt.plugins.IvyPlugin),Set(Atom(sbt.plugins.JvmPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.SemanticdbPlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.JUnitXmlReportPlugin)))
+[debug] Clause(Atom(sbt.plugins.CorePlugin),Set(Atom(sbt.plugins.Giter8TemplatePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(sbt.plugins.MiniDependencyTreePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(org.jetbrains.sbt.StructurePlugin)))
+[debug] Clause(Atom(sbt.plugins.JvmPlugin),Set(Atom(org.jetbrains.sbt.IdeaShellPlugin)))
+[debug] Clause(And(Set(Atom(sbt.plugins.CorePlugin), Atom(sbt.plugins.JvmPlugin))),Set(Atom(org.jetbrains.sbt.indices.SbtIntellijIndicesPlugin))))
+[debug]   :: deduced result: Matched(sbt.plugins.CorePlugin,sbt.plugins.Giter8TemplatePlugin,sbt.plugins.IvyPlugin,sbt.plugins.JvmPlugin,sbt.plugins.SemanticdbPlugin,org.jetbrains.sbt.indices.SbtIntellijIndicesPlugin,sbt.plugins.JUnitXmlReportPlugin,org.jetbrains.sbt.IdeaShellPlugin,org.jetbrains.sbt.StructurePlugin,sbt.plugins.MiniDependencyTreePlugin)
+[debug] Plugins.deducer#function took 2.3887 ms
+[info] loading settings for project root from build.sbt ...
+[debug]         Load.resolveProject(root) took 39.632ms
+[debug]       Load.loadTransitive: finalizeProject(Project(id root, base: C:\Users\ilmar\Documents\Aalto\StrategyGame, plugins: List(<none>))) took 43.8226ms
+[debug] [Loading] Done in C:\Users\ilmar\Documents\Aalto\StrategyGame, returning: (root)
+[debug]     Load.loadUnit: loadedProjectsRaw took 123.1222ms
+[debug]     Load.loadUnit: cleanEvalClasses took 12.2803ms
+[debug]   Load.loadUnit(file:/C:/Users/ilmar/Documents/Aalto/StrategyGame/, ...) took 668.28ms
+[debug] Load.apply: load took 670.2819ms
+[debug] Load.apply: resolveProjects took 0.1488ms
+[debug] Load.apply: finalTransforms took 27.8279ms
+[debug] Load.apply: config.delegates took 0.4153ms
+[debug] Load.apply: Def.make(settings)... took 76.0501ms
+[debug] Load.apply: structureIndex took 26.9409ms
+[debug] Load.apply: mkStreams took 0.0026ms
+[info] set current project to StrategyGame (in build file:/C:/Users/ilmar/Documents/Aalto/StrategyGame/)
+[debug] > Exec(sbtPopOnFailure, None, None)
+[debug] > Exec(resumeFromFailure, None, None)
+[debug] > Exec(notifyUsersAboutShell, None, None)
+[debug] > Exec(iflast shell, None, None)
+[debug] > Exec(; set ideaPort in Global := 65362 ; idea-shell, None, None)
+[debug] > Exec(set ideaPort in Global := 65362, None, None)
+[info] Defining Global / ideaPort
+[info] The new value will be used by Compile / compile, Test / compile
+[debug] Defining 
+[debug] 	Global / ideaPort
+[debug] 
+[debug] The new value will be used by 
+[debug] 	Compile / compile
+[debug] 	Test / compile
+[info] Reapplying settings...
+[info] set current project to StrategyGame (in build file:/C:/Users/ilmar/Documents/Aalto/StrategyGame/)
+[debug] > Exec(idea-shell, None, None)
