@@ -1,0 +1,11 @@
+[debug] Packaging C:\Users\ilmar\Documents\Aalto\StrategyGame\target\scala-3.2.0\strategygame_3-0.1.0-SNAPSHOT.jar ...
+[debug] Input file mappings:
+[debug] 	GameApp$$anon$1.class
+[debug] 	  C:\Users\ilmar\Documents\Aalto\StrategyGame\target\scala-3.2.0\classes\GameApp$$anon$1.class
+[debug] 	GameApp$.class
+[debug] 	  C:\Users\ilmar\Documents\Aalto\StrategyGame\target\scala-3.2.0\classes\GameApp$.class
+[debug] 	GameApp.class
+[debug] 	  C:\Users\ilmar\Documents\Aalto\StrategyGame\target\scala-3.2.0\classes\GameApp.class
+[debug] 	GameApp.tasty
+[debug] 	  C:\Users\ilmar\Documents\Aalto\StrategyGame\target\scala-3.2.0\classes\GameApp.tasty
+[debug] Done packaging.

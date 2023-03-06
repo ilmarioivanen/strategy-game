@@ -1,0 +1,20 @@
+[debug] [zinc] IncrementalCompile -----------
+[debug] IncrementalCompile.incrementalCompile
+[debug] previous = Stamps for: 0 products, 0 sources, 0 libraries
+[debug] current source = Set(${BASE}/src/main/scala/GameApp.scala)
+[debug] > initialChanges = InitialChanges(Changes(added = Set(${BASE}/src/main/scala/GameApp.scala), removed = Set(), changed = Set(), unmodified = ...),Set(),Set(),API Changes: Set())
+[debug] Full compilation, no sources in previous analysis.
+[debug] all 1 sources are invalidated
+[debug] Initial set of included nodes: 
+[debug] Recompiling all sources: number of invalidated sources > 50.0 percent of all sources
+[debug] compilation cycle 1
+[info] compiling 1 Scala source to C:\Users\ilmar\Documents\Aalto\StrategyGame\target\scala-3.2.0\classes ...
+[debug] Returning already retrieved and compiled bridge: C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala3-sbt-bridge\3.2.0\scala3-sbt-bridge-3.2.0.jar.
+[debug] [zinc] Running cached compiler 335e264d for Scala Compiler version 3.2.0
+[debug] [zinc] The Scala compiler is invoked with:
+[debug] 	-bootclasspath
+[debug] 	C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala3-library_3\3.2.0\scala3-library_3-3.2.0.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scala-lang\scala-library\2.13.8\scala-library-2.13.8.jar
+[debug] 	-classpath
+[debug] 	C:\Users\ilmar\Documents\Aalto\StrategyGame\target\scala-3.2.0\classes;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\scalafx\scalafx_3\19.0.0-R30\scalafx_3-19.0.0-R30.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-base\19\javafx-base-19.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-controls\19\javafx-controls-19.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-fxml\19\javafx-fxml-19.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-graphics\19\javafx-graphics-19.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-media\19\javafx-media-19.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-swing\19\javafx-swing-19.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-web\19\javafx-web-19.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-base\19\javafx-base-19-win.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-controls\19\javafx-controls-19-win.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-fxml\19\javafx-fxml-19-win.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-graphics\19\javafx-graphics-19-win.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-media\19\javafx-media-19-win.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-swing\19\javafx-swing-19-win.jar;C:\Users\ilmar\AppData\Local\Coursier\Cache\v1\https\repo1.maven.org\maven2\org\openjfx\javafx-web\19\javafx-web-19-win.jar
+[debug] Scala compilation took 3.368855 s
+[info] done compiling

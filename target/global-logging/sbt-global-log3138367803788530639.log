@@ -1,0 +1,7 @@
+[debug] > Exec(run, None, None)
+[debug] Evaluating tasks: Compile / run
+[debug] Running task... Cancel: Signal, check cycles: false, forcegc: true
+[info] compiling 1 Scala source to C:\Users\ilmar\Documents\Aalto\StrategyGame\target\scala-3.2.0\classes ...
+[info] done compiling
+[success] Total time: 11 s, completed 6.3.2023 klo 13.20.26
+[debug] > Exec(idea-shell, None, None)
