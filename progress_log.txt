@@ -1,3 +1,8 @@
 Monday 6.3
 
-
+Haven't done much yet, but made GameApp.scala in order to start making the GUI. Aadded some dependencies and tried out ScalaFX with that.
+Also got this warning with ScalaFX:
+WARNING: Unsupported JavaFX configuration: classes were loaded from 'unnamed module @6a2bf0ca',
+but after some research it seems like it can be ignored.
+Probably spent about 5 hours so far as I also fixed some problems regarding coding environment.
+I'm definitely lagging a bit behind my schedule but since I spent a fair amount of time last week on other courses I have more time to focus on the project this week.
