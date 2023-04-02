@@ -22,13 +22,11 @@ import javax.swing.border.Border
 
 object GameApp extends JFXApp3:
 
+  val game = new Game
+
+
   def start(): Unit =
 
-    /*
-    Creation of a new primary stage (Application window).
-    We can use Scala's anonymous subclass syntax to get quite
-    readable code.
-    */
 
     stage = new JFXApp3.PrimaryStage:
       title = "Hello Stage"

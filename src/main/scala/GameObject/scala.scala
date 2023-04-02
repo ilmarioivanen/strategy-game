@@ -1,5 +1,0 @@
-package GameObject
-
-class scala {
-
-}
