@@ -6,3 +6,10 @@ WARNING: Unsupported JavaFX configuration: classes were loaded from 'unnamed mod
 but after some research it seems like it can be ignored.
 Probably spent about 5 hours so far as I also fixed some problems regarding coding environment.
 I'm definitely lagging a bit behind my schedule but since I spent a fair amount of time last week on other courses I have more time to focus on the project this week.
+
+
+Monday 20.3
+
+Unfortunately due to work and some unexpected life circumstances I was not able to work on the project at all during the last two weeks.
+I'm now greatly behind schedule but I'm confident that I manage to finish the project in time. I probably won't have much time for polishing
+and I'll have to maybe cut some gameplay ideas but that's fine.
