@@ -13,3 +13,10 @@ Monday 20.3
 Unfortunately due to work and some unexpected life circumstances I was not able to work on the project at all during the last two weeks.
 I'm now greatly behind schedule but I'm confident that I manage to finish the project in time. I probably won't have much time for polishing
 and I'll have to maybe cut some gameplay ideas but that's fine.
+
+
+Monday 3.4
+
+This time I finally got something done. I made the first proper version of the user interface with buttons and started implementing some other classes.
+I probably spent 10 hours at most but still made nice progress.
+I don't have almost any other schoolwork until the deadline so I'm not too stressed.
