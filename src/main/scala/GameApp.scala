@@ -1,8 +1,9 @@
 import game.Game
-import gui.GameGui
-import scalafx.Includes.*
+import game.gui.GameGui
+import scalafx.Includes._
 import scalafx.application.JFXApp3
 import scalafx.scene.Scene
+import scalafx.Includes._
 
 object GameApp extends JFXApp3:
 

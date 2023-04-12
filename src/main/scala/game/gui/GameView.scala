@@ -1,4 +1,4 @@
-package gui
+package game.gui
 
 import scalafx.scene.Scene
 import scalafx.scene.control.Button
@@ -22,16 +22,6 @@ import javax.swing.border.Border
 
 class GameView extends GridPane {
 
-
-    /*
-    Create root gui component, add it to a Scene
-    and set the current window scene.
-    */
-/*
-    val root = GridPane()
-    val scene = Scene(parent = root) // Scene acts as a container for the scene graph
-    stage.scene = scene // Assigning the new scene as the current scene for the stage
-*/
 
     //Create button components
     val button1 = Button("Button1")
@@ -71,7 +61,7 @@ class GameView extends GridPane {
     //Add child components to grid
     this.add(bottomRight, 1, 1)
     this.add(bottomLeft, 0, 1)
-    this.add(canvas, 0, 0, 2, 1)
+    this.add(canvas, 0, 0, 2, 1)        // canvas probably needs to be replaced for different backgrounds
 
     //Define grid row and column size
     val column0 = new ColumnConstraints:
