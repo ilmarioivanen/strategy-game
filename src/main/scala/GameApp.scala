@@ -8,7 +8,7 @@ import scalafx.Includes._
 object GameApp extends JFXApp3:
 
   def start() =
-  
+
     val game = new Game
     val gui = GameGui(game)
   
@@ -17,3 +17,4 @@ object GameApp extends JFXApp3:
       width = 600
       height = 450
       scene = gui
+      resizable = false

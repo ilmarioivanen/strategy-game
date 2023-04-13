@@ -13,15 +13,15 @@ import scalafx.scene.layout.BackgroundFill
 import scalafx.scene.layout.CornerRadii
 import scalafx.scene.layout.ColumnConstraints
 import scalafx.scene.layout.RowConstraints
+import scalafx.scene.control.Label
 import scalafx.scene.paint.Color.*
 import scalafx.geometry.*
-import scalafx.scene.text.Font
-import java.awt
-import java.awt.{Component, Graphics}
+//import java.awt
+//import java.awt.{Component, Graphics, Label}
 import javax.swing.border.Border
+import players.UserControlled
 
 class GameView extends GridPane {
-
 
     //Create button components
     val button1 = Button("Button1")
@@ -32,12 +32,6 @@ class GameView extends GridPane {
     button3.setMinSize(80, 40)
     val button4 = Button("Button4")
     button4.setMinSize(80, 40)
-
-    //Set button actions
-    button1.onAction = (event) => println("button1")
-    button2.onAction = (event) => println("button2")
-    button3.onAction = (event) => println("button3")
-    button4.onAction = (event) => println("button4")
 
     //Create components to fill the grid box
     val buttons13 = new VBox {
@@ -55,13 +49,36 @@ class GameView extends GridPane {
       padding = Insets(0, 0, 0, 10)
       children = List(buttons13, buttons24)
     }
-    val bottomLeft = new HBox
-    val canvas = new Canvas(600, 315)
+    val userPartyInfo = new VBox {
+      padding = Insets(10, 10, 10, 10)
+      minWidth = 100
+      maxWidth = 150
+      val character1 = Label("Bob")
+      val character2 = Label("bob")
+      val character3 = Label("obob")
+      children = List(character1, character2, character3)
+    }
+    val enemyPartyInfo = new VBox {
+      padding = Insets(10, 10, 10, 10)
+      minWidth = 100
+      maxWidth = 200
+      val character1 = Label("Bob")
+      val character2 = Label("bob")
+      val character3 = Label("obob")
+      children = List(character1, character2, character3)
+
+    }
+
+    val bottomLeft = new HBox {
+      children = List(userPartyInfo, enemyPartyInfo)
+    }
+
+    //val canvas = new Canvas(600, 315)
 
     //Add child components to grid
     this.add(bottomRight, 1, 1)
     this.add(bottomLeft, 0, 1)
-    this.add(canvas, 0, 0, 2, 1)        // canvas probably needs to be replaced for different backgrounds
+    //this.add(canvas, 0, 0, 2, 1)        // canvas probably needs to be replaced for different backgrounds
 
     //Define grid row and column size
     val column0 = new ColumnConstraints:
