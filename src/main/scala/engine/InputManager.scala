@@ -19,6 +19,5 @@ object InputManager {
       keysPressed += event.code
       if event.code == KeyCode.Escape then scene.openMenu()
 
-    scene.onKeyReleased = event => keysPressed -= event.getCode
-
+    // maybe need something for mouse movement
 }

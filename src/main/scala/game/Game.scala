@@ -14,8 +14,9 @@ class Game {
   private val userParty = currentUser.party
   private val aiParty = currentEnemy.party
 
-  // add Bob to both parties for testing
-  currentPlayers.foreach(_.addToParty(Bob))
+  // add 3 Bobs to both parties for testing, new is mandatory for differentiating the objects
+  for i <- 0 until 3 do 
+    currentPlayers.foreach(_.addToParty(new Bob))
 
   def user = currentUser
   def ai = currentEnemy

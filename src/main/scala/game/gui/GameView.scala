@@ -50,35 +50,25 @@ class GameView extends GridPane {
       children = List(buttons13, buttons24)
     }
     val userPartyInfo = new VBox {
+      spacing = 5
       padding = Insets(10, 10, 10, 10)
       minWidth = 100
       maxWidth = 150
-      val character1 = Label("Bob")
-      val character2 = Label("bob")
-      val character3 = Label("obob")
-      children = List(character1, character2, character3)
     }
     val enemyPartyInfo = new VBox {
-      padding = Insets(10, 10, 10, 10)
+      spacing = 5
+      padding = Insets(10, 10, 10, 20)
       minWidth = 100
       maxWidth = 200
-      val character1 = Label("Bob")
-      val character2 = Label("bob")
-      val character3 = Label("obob")
-      children = List(character1, character2, character3)
-
     }
 
     val bottomLeft = new HBox {
       children = List(userPartyInfo, enemyPartyInfo)
     }
 
-    //val canvas = new Canvas(600, 315)
-
     //Add child components to grid
     this.add(bottomRight, 1, 1)
     this.add(bottomLeft, 0, 1)
-    //this.add(canvas, 0, 0, 2, 1)        // canvas probably needs to be replaced for different backgrounds
 
     //Define grid row and column size
     val column0 = new ColumnConstraints:
