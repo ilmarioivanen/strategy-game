@@ -8,6 +8,7 @@ import scala.util.Random.shuffle
 class Game {
 
   private var gameOver = false
+  private var gameStarted = false
   private val currentUser = new UserControlled
   private val currentEnemy = new EnemyAI
   private val currentPlayers = shuffle(Buffer[Player](currentUser, currentEnemy)) // randomizes who makes the first move
@@ -18,6 +19,11 @@ class Game {
   for i <- 0 until 3 do 
     currentPlayers.foreach(_.addToParty(new Bob))
 
+  def isStarted =
+    gameStarted
+  def startGame() = 
+    gameStarted = true
+    
   def user = currentUser
   def ai = currentEnemy
   def players = currentPlayers

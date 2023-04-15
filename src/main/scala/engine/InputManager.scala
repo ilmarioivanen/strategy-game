@@ -1,23 +1,33 @@
 package engine
 
+import characters.Character // I'm no sure but I feel like having to import this is not ideal
 import game.gui.GameGui
 import scalafx.Includes._
 import scalafx.scene.Scene
 import scalafx.scene.input.KeyCode
-import scala.collection.mutable.Set
 
 // Object to manage inputs such as Esc to go back to menu
+// This does NOT currently manage inputs given by clicking the gui buttons, only inputs from kb/mouse
+// GUI button imputs could also be here but they directly alter the game state which is a bit different
 // By default, the arrow keys and space bar can be used to navigate the buttons and click them
 object InputManager {
 
-  // Sets do not allow duplicates, so they are useful here
-  val keysPressed = Set[KeyCode]()
+  private var lastTargetOption: Option[Character] = None
+
+  def lastTarget = lastTargetOption
 
   def handleInput(scene: GameGui) =
 
     scene.onKeyPressed = event =>
-      keysPressed += event.code
-      if event.code == KeyCode.Escape then scene.openMenu()
+      if event.code == KeyCode.Escape then scene.openView(scene.gameMenu)
 
-    // maybe need something for mouse movement
+    scene.onMouseClicked = event =>
+      val charMap = scene.characterMap
+      val default = charMap.last
+      val node = event.getPickResult.getIntersectedNode
+      val someTarget = charMap.find(_._1 == node)
+      val targetNode = someTarget.getOrElse(default)._1
+      val targetCharacter = someTarget.getOrElse(default)._2
+      lastTargetOption = Some(targetCharacter)
+      scene.targeted(targetNode)
 }
