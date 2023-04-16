@@ -8,24 +8,26 @@ import scalafx.scene.text.Font
 import scalafx.scene.control.Label
 import engine.InputManager
 import javafx.scene.shape.Circle
-import scalafx.animation.AnimationTimer
 import scalafx.geometry.Bounds
 import scalafx.scene.effect.DropShadow
 import scalafx.scene.paint.Color._
 import scalafx.scene.effect
-
+import scalafx.scene.control.Alert._
+import scalafx.scene.control.Alert
 
 // The class was made for switching between normal gameview and the menu.
 // In the future this might also include other stuff like the game loop
 class GameGui(game: Game) extends Scene {
 
   // Set up info from game
+  val user = game.currentUser
+  val enemy = game.currentEnemy
+  val userParty = game.userParty
+  val enemyParty = game.aiParty
+  val bothParties = game.bothParties
+    // Set up sprites
+  val characterNodes = Buffer[Node]()
 
-  val user = game.user
-  val enemy = game.ai
-  val userParty = game.user.party
-  val enemyParty = game.ai.party
-  val bothParties = userParty ++ enemyParty
 
   val gameMenu = new Menu {
 
@@ -50,17 +52,16 @@ class GameGui(game: Game) extends Scene {
       game.startGame()
   }
 
-  // Set up stages??
-
+  // Set up stages?
 
   // Set up the base gameview
   val gameView = new GameView
 
   // Set up buttons
-  val attackButton = gameView.button1
-  val specialButton = gameView.button2
-  val blButton = gameView.button3
-  val brButton = gameView.button4
+  val skill1Button = gameView.button1
+  val skill2Button = gameView.button2
+  val skill3Button = gameView.button3
+  val skill4Button = gameView.button4
 
   // Set up text info
   def setTextInfo() =
@@ -72,13 +73,6 @@ class GameGui(game: Game) extends Scene {
       userInfo.children += Label(s"${character.name}:   ${character.currentHp} HP    ${character.currentMana} MP")
     for character <- enemyParty do
       enemyInfo.children += Label(s"${character.name}:   ${character.currentHp} HP    ${character.currentMana} MP")
-
-  // Initial info
-  setTextInfo()
-
-  // Set up sprites
-  val characterNodes = Buffer[Node]()
-  // for some reason couldn't get Map to work properly
 
   def setCharacters() =
     for character <- userParty do
@@ -112,41 +106,103 @@ class GameGui(game: Game) extends Scene {
       gameView.children += sprite
       characterNodes += sprite
 
-  // Initial characters
-  setCharacters()
-  val characterMap = characterNodes.zip(bothParties)
+  def inTurn() =
+    // reset old turn effects
+    gameView.children.foreach(_.setEffect(null))
+    val turnEffect = new DropShadow {
+                color = Black
+                radius = 20
+                spread = 0.5
+    }
+    val nodeInTurn = characterMap
+      .map((n, c) => (c, n))
+      .toMap.get(game.characterTurn)
+    nodeInTurn match
+      case Some(node) =>
+        node.effect = turnEffect
+        node       // returns also the node which has the effect
+      case None => // some error since some character should always be in turn
 
   def targeted(targetNode: Node) =
-    // reset old target effects
-    gameView.children.foreach(_.setEffect(null))
-    val targetEffect = new DropShadow {
+    // reset old target effects, but keep the turn effect
+    gameView.children.foreach(n => if n != inTurn() then n.setEffect(null))
+    // This is pretty inefficent as it calls inTurn() every time we want to change targets
+    targetNode.effect = new DropShadow {
                 color = Red
                 radius = 30
                 spread = 0.75
     }
-    targetNode.effect = targetEffect
 
+  def target =
+    InputManager.lastTarget match
+      case Some(character) =>
+        // If-else so there's a new target in case the last target died
+        if character.isDead then
+          enemyParty.head
+        else
+          character
+      case None => enemyParty.head
+      // the first enemy is attacked if the user hasn't clicked anything
 
-  // maybe a bit dumb to clear the info every time but it is what it is
+  def updateNodes() =
+    characterNodes.foreach(n => gameView.children -= n)
+    characterNodes.empty
+    setCharacters()
+
+  // Maybe a bit inefficient and unnecessary to clear everything in updateNodes() and updateInfo()
   def updateInfo() =
     gameView.userPartyInfo.children.clear()
     gameView.enemyPartyInfo.children.clear()
     setTextInfo()
 
-  // Update method that updates everything?
-  // def update() = updateInfo()... other updates
+  def updateButtons() =
+    val cTurn = game.characterTurn
+    skill1Button.text = cTurn.skill1Name
+    skill2Button.text = cTurn.skill2Name
+    skill3Button.text = cTurn.skill3Name
+    skill4Button.text = cTurn.skill4Name
+
+  // Update method that updates everything
+  def update() =
+    game.update()
+    updateNodes()
+    updateInfo()
+    if game.isOver then
+      new Alert(AlertType.Information) {
+        title = "Game Over!"
+        headerText = game.winner
+        contentText = "You are now going back to the menu screen."
+      }.showAndWait()
+      openView(gameMenu)
+    else
+      updateButtons()
+      inTurn()
 
   // Set up button events
-  attackButton.onAction = (event) =>
-    user.party.head.basicAttack(enemyParty.head) // for testing, Action class need to be implemented
-    updateInfo()
+  skill1Button.onAction = (event) =>
+    userParty.head.skill1(target)
+    update()
+  skill2Button.onAction = (event) =>
+    userParty.head.skill2(target)
+    update()
+  skill3Button.onAction = (event) =>
+    userParty.head.skill3(target)
+    update()
+  skill4Button.onAction = (event) =>
+    userParty.head.skill4(target)
+    update()
 
   this.root = gameMenu
   InputManager.handleInput(this)
 
-  // Method(s) to enter (and exit?) the menu and selecting views
-
+  // Method to swap roots
   def openView(view: Parent) =
     this.root = view
 
+  // Initial updates
+  setTextInfo()
+  updateButtons()
+  setCharacters()
+  val characterMap = characterNodes.zip(bothParties) // This was originally a map
+  inTurn()
 }

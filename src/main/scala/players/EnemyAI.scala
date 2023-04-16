@@ -1,16 +1,23 @@
 package players
 
 import scala.collection.mutable.Buffer
-import characters.*
+import scala.util.Random.shuffle
+import characters._
+import game.Game
 
-class EnemyAI extends Player {
+class EnemyAI(game: Game) extends Player {
   
   private val aiParty = Buffer[Character]()
 
   def takeTurn() =
-    Thread.sleep(2000) // simulate the calculations
-    "enemy turn"
+    val userParty = game.userParty
+    val aiChar = game.characterTurn
+    val target = shuffle(userParty).head
+    aiChar.skill1(target)
     
   def party = aiParty
-  def addToParty(character: Character) = aiParty += character
+  def addToParty(character: Character) =
+    aiParty += character
+  def removeFromParty(character: Character) =
+    aiParty -= character
 }
