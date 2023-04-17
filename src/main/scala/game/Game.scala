@@ -3,6 +3,10 @@ package game
 import scala.collection.mutable.Buffer
 import players._
 import characters._
+import scala.concurrent.*
+import scala.concurrent.duration.*
+import ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 class Game {
 
@@ -51,9 +55,12 @@ class Game {
     userDead.foreach( d => currentUser.removeFromParty(d) )
     aiDead.foreach( d => currentEnemy.removeFromParty(d) )
     turnCount += 1
-    // Check who makes the next turn
+    // Automatically update game state if AI's turn and make the user wait
     if aiParty.contains(characterTurn) then
-      currentEnemy.takeTurn()
+      val enemyTurn = Future {
+        currentEnemy.takeTurn()
+      }
+      val turnDone = Await.result(enemyTurn, 10.second)
     else
       currentUser.takeTurn()
 }

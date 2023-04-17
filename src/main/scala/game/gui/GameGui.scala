@@ -1,7 +1,7 @@
 package game.gui
 
 import scala.collection.mutable.Buffer
-import scalafx.Includes._
+import scalafx.Includes.*
 import game.Game
 import scalafx.scene.{Group, Node, Parent, Scene}
 import scalafx.scene.text.Font
@@ -10,10 +10,11 @@ import engine.InputManager
 import javafx.scene.shape.Circle
 import scalafx.geometry.Bounds
 import scalafx.scene.effect.DropShadow
-import scalafx.scene.paint.Color._
+import scalafx.scene.paint.Color.*
 import scalafx.scene.effect
-import scalafx.scene.control.Alert._
+import scalafx.scene.control.Alert.*
 import scalafx.scene.control.Alert
+import scalafx.scene.paint.Color
 
 // The class was made for switching between normal gameview and the menu.
 // In the future this might also include other stuff like the game loop
@@ -25,7 +26,7 @@ class GameGui(game: Game) extends Scene {
   val userParty = game.userParty
   val enemyParty = game.aiParty
   val bothParties = game.bothParties
-    // Set up sprites
+  // Set up sprites
   val characterNodes = Buffer[Node]()
 
 
@@ -114,24 +115,24 @@ class GameGui(game: Game) extends Scene {
                 radius = 20
                 spread = 0.5
     }
-    val nodeInTurn = characterMap
-      .map((n, c) => (c, n))
-      .toMap.get(game.characterTurn)
+    val nodeInTurn = characterMap.map((n, c) => (c, n))
+      .toMap
+      .get(game.characterTurn)
     nodeInTurn match
       case Some(node) =>
         node.effect = turnEffect
-        node       // returns also the node which has the effect
       case None => // some error since some character should always be in turn
 
   def targeted(targetNode: Node) =
     // reset old target effects, but keep the turn effect
-    gameView.children.foreach(n => if n != inTurn() then n.setEffect(null))
-    // This is pretty inefficent as it calls inTurn() every time we want to change targets
+    gameView.children.foreach(_.setEffect(null))
+    inTurn() // calls inTurn() to reset turn marker in case it was removed
     targetNode.effect = new DropShadow {
                 color = Red
                 radius = 30
                 spread = 0.75
     }
+    lastTargetNode = targetNode
 
   def target =
     InputManager.lastTarget match
@@ -177,6 +178,7 @@ class GameGui(game: Game) extends Scene {
     else
       updateButtons()
       inTurn()
+      targeted(lastTargetNode)
 
   // Set up button events
   skill1Button.onAction = (event) =>
@@ -203,6 +205,7 @@ class GameGui(game: Game) extends Scene {
   setTextInfo()
   updateButtons()
   setCharacters()
-  val characterMap = characterNodes.zip(bothParties) // This was originally a map
+  val characterMap = characterNodes.zip(bothParties) //This was originally a map.
+  private var lastTargetNode = characterNodes.head
   inTurn()
 }
