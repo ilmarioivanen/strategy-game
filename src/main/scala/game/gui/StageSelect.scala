@@ -1,21 +1,32 @@
 package game.gui
 
-import scalafx.Includes._
-import scalafx.scene.control.Button
+import scalafx.Includes.*
+import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.VBox
+import scalafx.scene.layout.HBox
+import stages.*
 
 class StageSelect extends VBox {
 
-  // Placeholder button
-  // The buttons will be added in the gui class that gets the information of the playable stages
-  val stage1 = new Button("stage1") {
-    onAction = (event) => println("stage1")
-  }
+  // Some way of getting all the possible stages
+  // here or in gamegui or in game
+  
+  val bg = new Battleground
+
+  val stage1 = new Button(bg.name)
+
   // This one will probably stay
   // Button for telling the game you are done selecting your stage
-  val next = new Button("Next") {
-    onAction = (event) => println("next")
-  }
+  val next = new Button("Next")
 
-  this.children = Array(stage1, next)
+  // Labels for some info messages
+  val messages = new Label("Please select a stage by clicking one of the buttons.")
+  val part1 = new Label("Selected stage: ")
+  val part2 = new Label("")
+  
+  val selected = new HBox {
+    children = Array(part1, part2)
+  }
+  
+  this.children = Array(stage1, next, messages, selected)
 }

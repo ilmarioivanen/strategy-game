@@ -1,5 +1,6 @@
 package characters
 
+import skills.Skill
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
 
@@ -11,13 +12,16 @@ class Character(val name: String) {
   private var hp = 100
   private var mp = 100
   private var speed = 100
+  // probably needs more stats such as attackDamage and base values that are separate for every stat
+  
+  // "Character sprite", just a shape for now
   private var currentSprite = new Rectangle {
     width = 50
     height = 50
     fill = Blue
   }
-  // probably needs more stats such as attackDamage and base values that are separate for every stat
-
+ 
+  
   // Methods that are same for every character
   def isDead: Boolean =
     if hp <= 0 then

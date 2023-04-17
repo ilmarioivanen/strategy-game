@@ -10,6 +10,7 @@ class EnemyAI(game: Game) extends Player {
   private val aiParty = Buffer[Character]()
 
   def takeTurn() =
+    Thread.sleep(100) // simulates calculation time for now
     val userParty = game.userParty
     val aiChar = game.characterTurn
     val target = shuffle(userParty).head

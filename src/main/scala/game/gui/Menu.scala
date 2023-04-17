@@ -6,17 +6,11 @@ import scalafx.scene.layout.VBox
 import scalafx.scene.control.Label
 
 class Menu extends VBox {
-
-  // Menu buttons and their default event actions for testing etc
   
-  val continue = new Button("Continue Game") {
-    onAction = (event) => println("continue game")
-  }
+  val continue = new Button("Continue Game")
   
-  val newGame = new Button("New Game") {
-    onAction = (event) => println("new game")
-  }
-  
+  val newGame = new Button("New Game")
+ 
   val saveGame = new Button("Save Game") {
     onAction = (event) => println("saved")
   }

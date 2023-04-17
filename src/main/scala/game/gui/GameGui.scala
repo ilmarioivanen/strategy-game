@@ -17,7 +17,8 @@ import scalafx.scene.control.Alert
 import scalafx.scene.paint.Color
 
 // The class was made for switching between normal gameview and the menu.
-// In the future this might also include other stuff like the game loop
+// The class got super crowded since all of the buttons have actions that alter the game state
+
 class GameGui(game: Game) extends Scene {
 
   // Set up info from game
@@ -29,6 +30,8 @@ class GameGui(game: Game) extends Scene {
   // Set up sprites
   val characterNodes = Buffer[Node]()
 
+  // Set up the base gameview
+  val gameView = new GameView
 
   val gameMenu = new Menu {
 
@@ -41,22 +44,42 @@ class GameGui(game: Game) extends Scene {
     newGame.onAction = (event) =>
       openView(stageSelect)
       this.messages.text = ""
-    //saveGame.onAction
-    //loadGame.onAction
+      //saveGame.onAction
+      //loadGame.onAction
   }
+
   val stageSelect = new StageSelect {
+    // needs to change for multiple stages
+    // also a message if no stage is chosen
+    stage1.onAction = (event) =>
+      gameView.setBackground(this.bg.background)
+      this.part2.text = bg.name
     next.onAction = (event) => openView(characterSelect)
   }
+
   val characterSelect = new CharacterSelect {
-    next.onAction = (event) =>
-      openView(gameView)
-      game.startGame()
+
+    // actions for selecting your party
+    // also remember to update the label
+
+    clear.onAction = (event) =>
+      userParty.clear()
+
+    startGame.onAction = (event) =>
+      if game.userParty.isEmpty then
+        this.messages.text = "Please add at least one character to your party."
+      else
+        openView(gameView)
+        game.startGame()
+        // Initial updates
+        updateInfo()
+        updateButtons()
+        updateNodes()
+        inTurn()
   }
 
   // Set up stages?
 
-  // Set up the base gameview
-  val gameView = new GameView
 
   // Set up buttons
   val skill1Button = gameView.button1
@@ -111,9 +134,9 @@ class GameGui(game: Game) extends Scene {
     // reset old turn effects
     gameView.children.foreach(_.setEffect(null))
     val turnEffect = new DropShadow {
-                color = Black
-                radius = 20
-                spread = 0.5
+                           color = Black
+                           radius = 20
+                           spread = 0.5
     }
     val nodeInTurn = characterMap.map((n, c) => (c, n))
       .toMap
@@ -124,21 +147,22 @@ class GameGui(game: Game) extends Scene {
       case None => // some error since some character should always be in turn
 
   def targeted(targetNode: Node) =
-    // reset old target effects, but keep the turn effect
+    // reset old target effects
     gameView.children.foreach(_.setEffect(null))
-    inTurn() // calls inTurn() to reset turn marker in case it was removed
-    targetNode.effect = new DropShadow {
-                color = Red
-                radius = 30
-                spread = 0.75
+    inTurn() // calls inTurn() to reset turn effect in case it was removed
+    val targetEffect = new DropShadow {
+                             color = Red
+                             radius = 30
+                             spread = 0.75
     }
+    targetNode.effect = targetEffect
     lastTargetNode = targetNode
 
   def target =
     InputManager.lastTarget match
       case Some(character) =>
-        // If-else so there's a new target in case the last target died
-        if character.isDead then
+        // If-else so there's a new target in case the last target died or is not in either party (aka old info)
+        if character.isDead || !bothParties.contains(character) then
           enemyParty.head
         else
           character
@@ -175,10 +199,12 @@ class GameGui(game: Game) extends Scene {
         contentText = "You are now going back to the menu screen."
       }.showAndWait()
       openView(gameMenu)
+      game.endGame()
     else
       updateButtons()
       inTurn()
       targeted(lastTargetNode)
+
 
   // Set up button events
   skill1Button.onAction = (event) =>
@@ -194,18 +220,18 @@ class GameGui(game: Game) extends Scene {
     userParty.head.skill4(target)
     update()
 
+
   this.root = gameMenu
-  InputManager.handleInput(this)
+  InputManager.handleInput(this) // This could be placed elsewhere to avoid inputs when there aren't targets for example
 
   // Method to swap roots
   def openView(view: Parent) =
     this.root = view
 
-  // Initial updates
-  setTextInfo()
-  updateButtons()
-  setCharacters()
-  val characterMap = characterNodes.zip(bothParties) //This was originally a map.
+  // Initial updates to avoid errors due to missing targets
+  // Probably should've implemented this better
+  updateNodes()
+  val characterMap = characterNodes.zip(bothParties) // This was originally a map.
   private var lastTargetNode = characterNodes.head
-  inTurn()
+
 }

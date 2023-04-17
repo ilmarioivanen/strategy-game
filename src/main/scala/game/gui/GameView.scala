@@ -4,7 +4,6 @@ import scalafx.scene.Scene
 import scalafx.scene.control.Button
 import scalafx.scene.layout.Pane
 import scalafx.geometry.Insets
-import scalafx.scene.canvas.Canvas
 import scalafx.scene.layout.VBox
 import scalafx.scene.layout.HBox
 import scalafx.scene.layout.GridPane

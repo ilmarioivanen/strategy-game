@@ -20,7 +20,12 @@ class Game {
   val currentEnemy = new EnemyAI(this)
   val currentPlayers = Buffer[Player](currentUser, currentEnemy)
 
-  // add 3 Bobs to both parties for testing, new is mandatory for differentiating the objects
+  // add random characters to both parties
+  // originally for testing but turned out to be useful for avoiding errors and setting up the enemy party
+  // also works as a way to play with a random party yourself
+  // bit of a band aid fix that could be avoided
+  
+  
   for i <- 0 until 3 do
     currentPlayers.foreach(_.addToParty(new Bob))
 
@@ -43,10 +48,15 @@ class Game {
       "You won!"
     else
       "You lost!"
+  def endGame() =
+    gameStarted = false
   def startGame() = 
     gameStarted = true
+    // also checks if the AI is first in turn
+    if aiParty.contains(bySpeed.head) then
+      update()
   
-  def update() =
+  def update(): Unit =
     userLost = userParty.forall(_.isDead)
     userWon = aiParty.forall(_.isDead)
     gameOver = userLost || userWon
@@ -55,12 +65,12 @@ class Game {
     userDead.foreach( d => currentUser.removeFromParty(d) )
     aiDead.foreach( d => currentEnemy.removeFromParty(d) )
     turnCount += 1
-    // Automatically update game state if AI's turn and make the user wait
+    // Automatically update game state again if AI's turn and make the user wait
     if aiParty.contains(characterTurn) then
       val enemyTurn = Future {
         currentEnemy.takeTurn()
       }
       val turnDone = Await.result(enemyTurn, 10.second)
-    else
-      currentUser.takeTurn()
+      update()
+
 }
