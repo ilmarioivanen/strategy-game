@@ -20,3 +20,24 @@ Monday 3.4
 This time I finally got something done. I made the first proper version of the user interface with buttons and started implementing some other classes.
 I probably spent 10 hours at most but still made nice progress.
 I don't have almost any other schoolwork until the deadline so I'm not too stressed.
+
+
+Monday 17.4
+
+Most of the base game is completed and works fine. Some functionalities are missing, but otherwise I only need to add more content.
+I haven't done much testing outside of using println() which is probably not ideal but it worked well enough.
+I probably spent 60+ hours the last two weeks, and I'd say I need at least 20 hours more to complete the game without much polishing.
+Things to do:
+  - update the AI decision making (currently random)
+  - saving/loading the game and save file management
+  - a few small gui functionalities
+  - stage effects
+  - more characters/skills/stages
+  - proper testing
+  - final document
+If time:
+  - simple animations
+  - prettier sprites
+  - cleaning up the code
+Since I still have a week left I think I can finish the project in time.
+
