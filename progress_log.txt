@@ -24,8 +24,8 @@ I don't have almost any other schoolwork until the deadline so I'm not too stres
 
 Monday 17.4
 
-Most of the base game is completed and works fine. Some functionalities are missing, but otherwise I only need to add more content.
-I haven't done much testing outside of using println() which is probably not ideal but it worked well enough.
+Most of the base game is completed and works fine. Some functionalities are missing, but otherwise I only need to add more content and make sure the game is configurable through external files.
+I haven't done much testing outside of using println() which is probably not ideal but it worked well enough during developement.
 I probably spent 60+ hours the last two weeks, and I'd say I need at least 20 hours more to complete the game without much polishing.
 Things to do:
   - update the AI decision making (currently random)
@@ -39,5 +39,6 @@ If time:
   - simple animations
   - prettier sprites
   - cleaning up the code
-Since I still have a week left I think I can finish the project in time.
+Since I still have a week left I think I can finish the project in time. 
+Although I don't know how much time implementing the file management will take.
 
