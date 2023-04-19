@@ -1,4 +1,4 @@
-package characters.skills
+package skills
 
 class Skill(val name: String) {
 

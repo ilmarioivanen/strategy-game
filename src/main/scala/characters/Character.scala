@@ -1,6 +1,5 @@
 package characters
 
-import skills.Skill
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
 
@@ -21,7 +20,6 @@ class Character(val name: String) {
     fill = Blue
   }
  
-  
   // Methods that are same for every character
   def isDead: Boolean =
     if hp <= 0 then

@@ -18,7 +18,9 @@ class UserControlled(game: Game) extends Player {
     
   def party = userParty
   def addToParty(character: Character) =
-    userParty += character
+    if userParty.size < 3 then
+      userParty += character
   def removeFromParty(character: Character) =
-    userParty -= character
+    if userParty.nonEmpty then
+      userParty -= character
 }

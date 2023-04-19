@@ -49,21 +49,36 @@ class GameGui(game: Game) extends Scene {
   }
 
   val stageSelect = new StageSelect {
-    // needs to change for multiple stages
     // also a message if no stage is chosen
-    stage1.onAction = (event) =>
-      gameView.setBackground(this.bg.background)
-      this.part2.text = bg.name
-    next.onAction = (event) => openView(characterSelect)
+    for stage <- this.stagesToButtons do
+      stage._2.onAction = (event) =>
+        gameView.setBackground(stage._1.background)
+        game.selectStage(stage._1)
+        this.part2.text = stage._1.name
+    this.next.onAction = (event) =>
+      game.stage match
+        case Some(stage) => openView(characterSelect)
+        case None => this.messages.text = "Please select a stage before continuing."
   }
 
   val characterSelect = new CharacterSelect {
 
-    // actions for selecting your party
-    // also remember to update the label
+    for character <- this.charToButtons do
+      character._2.onAction = (event) =>
+        val char =
+          if userParty.contains(character._1._1) then
+            if userParty.contains(character._1._2) then
+              character._1._3
+            else
+              character._1._2
+          else
+            character._1._1
+        game.currentUser.addToParty(char)
+        this.part2.text = game.userParty.map(_.name).mkString(", ")
 
     clear.onAction = (event) =>
       userParty.clear()
+      this.part2.text = ""
 
     startGame.onAction = (event) =>
       if game.userParty.isEmpty then
@@ -76,10 +91,9 @@ class GameGui(game: Game) extends Scene {
         updateButtons()
         updateNodes()
         inTurn()
+
+    clear.onAction
   }
-
-  // Set up stages?
-
 
   // Set up buttons
   val skill1Button = gameView.button1

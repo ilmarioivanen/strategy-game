@@ -3,6 +3,7 @@ package game
 import scala.collection.mutable.Buffer
 import players._
 import characters._
+import stages._
 import scala.concurrent.*
 import scala.concurrent.duration.*
 import ExecutionContext.Implicits.global
@@ -16,21 +17,23 @@ class Game {
   private var userLost = false
   private var userWon = false
   private var turnCount = 0
+  private var currentStage: Option[Stage] = None
   val currentUser = new UserControlled(this)
   val currentEnemy = new EnemyAI(this)
   val currentPlayers = Buffer[Player](currentUser, currentEnemy)
 
-  // add random characters to both parties
+
+  // add random characters to the enemy party
   // originally for testing but turned out to be useful for avoiding errors and setting up the enemy party
-  // also works as a way to play with a random party yourself
   // bit of a band aid fix that could be avoided
-  
-  
+
   for i <- 0 until 3 do
-    currentPlayers.foreach(_.addToParty(new Bob))
+    currentEnemy.addToParty(new Bob)
 
   // These needed to be methods to update properly
-  def ai = currentEnemy
+  def selectStage(stage: Stage) =
+    currentStage = Some(stage)
+  def stage = currentStage
   def userParty = currentUser.party
   def aiParty = currentEnemy.party
   def bothParties = userParty ++ aiParty
@@ -70,7 +73,7 @@ class Game {
       val enemyTurn = Future {
         currentEnemy.takeTurn()
       }
-      val turnDone = Await.result(enemyTurn, 10.second)
+      val turnDone = Await.result(enemyTurn, 100.second)
       update()
 
 }

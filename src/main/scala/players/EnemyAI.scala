@@ -18,7 +18,9 @@ class EnemyAI(game: Game) extends Player {
     
   def party = aiParty
   def addToParty(character: Character) =
-    aiParty += character
+    if aiParty.size < 3 then
+      aiParty += character
   def removeFromParty(character: Character) =
-    aiParty -= character
+    if aiParty.nonEmpty then
+      aiParty -= character
 }

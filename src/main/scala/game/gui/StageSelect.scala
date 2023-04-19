@@ -5,15 +5,20 @@ import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.VBox
 import scalafx.scene.layout.HBox
 import stages.*
+import scala.collection.mutable.Buffer
+
 
 class StageSelect extends VBox {
+ 
+  private val stages = Array(new Battleground, new Volcano, new Desert)
 
-  // Some way of getting all the possible stages
-  // here or in gamegui or in game
+  private val stageButtons = Buffer[Button]()
   
-  val bg = new Battleground
-
-  val stage1 = new Button(bg.name)
+  for stage <- stages do 
+    val stageButton = new Button(stage.name)
+    stageButtons += stageButton
+    
+  val stagesToButtons = stages.zip(stageButtons)
 
   // This one will probably stay
   // Button for telling the game you are done selecting your stage
@@ -28,5 +33,5 @@ class StageSelect extends VBox {
     children = Array(part1, part2)
   }
   
-  this.children = Array(stage1, next, messages, selected)
+  this.children = stageButtons ++ Array(next, messages, selected)
 }

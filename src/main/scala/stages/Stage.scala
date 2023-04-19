@@ -1,8 +1,15 @@
 package stages
 
+import scalafx.geometry.Insets
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii}
+import scalafx.scene.paint.Color.*
 
-class Stage(val name: String) {
+
+trait Stage(val name: String) {
   
-  // Some effects for stages
+  // default background
+  val background = Background(Array(new BackgroundFill((White), CornerRadii.Empty, Insets.Empty)))
 
+  
 }
+
