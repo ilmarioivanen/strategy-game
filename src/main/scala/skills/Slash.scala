@@ -13,8 +13,10 @@ class Slash extends Skill(
   
 ) {
   
+  def dmg(user: Character) = 
+    (user.baseAtkDmg * 0.2).toInt
+  
   def effect(user: Character, target: Character) =
-    val dmg = (user.baseAtkDmg * 0.2).toInt
-    target.endTurn()
-    target.takeDamage(dmg)
+    user.endTurn()
+    target.takeDamage(dmg(user))
 }

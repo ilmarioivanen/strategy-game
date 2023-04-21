@@ -14,6 +14,7 @@ class EnemyAI(game: Game) extends Player {
     val userParty = game.userParty
     val aiChar = game.characterTurn
     val target = shuffle(userParty).head
+    val mostDmg = aiChar.skills.maxBy(_.dmg(aiChar))
     aiChar.skill1(target)
     
   def party = aiParty

@@ -13,6 +13,10 @@ trait Skill(
 
 ) {
 
-  def effect(user: Character, target: Character): Int
+  // Method for calculating how much the user would deal damage
+  // Needed so the ai can get the proper numbers
+  def dmg(user: Character): Int 
+  
+  def effect(user: Character, target: Character): Unit
   
 }

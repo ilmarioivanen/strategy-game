@@ -48,28 +48,31 @@ abstract class Character(
   def currentAtk: Int = atkDmg
   def currentMgc: Int = mgcDmg
   def currentSpeed: Int = speed
-  def takeDamage(dmg: Int): Int =
+  def takeDamage(dmg: Int): Unit =
     this.hp -= dmg
-    dmg // returns the damage so the ai can calculate based on that
   def sprite = currentSprite
 
 
-  // Skills and their names.
-  // These have to be overridden
-  val slash = new Slash
+  // Skills and their names
+  val skills = Array(new Slash, new Slash, new Slash, new Slash)
 
-  val skill1Name = slash.name
-  val skill2Name = slash.name
-  val skill3Name = slash.name
-  val skill4Name = slash.name
+  val s1 = skills(0)
+  val s2 = skills(1)
+  val s3 = skills(2)
+  val s4 = skills(3)
+
+  val skill1Name = s1.name
+  val skill2Name = s2.name
+  val skill3Name = s3.name
+  val skill4Name = s4.name
 
   def skill1(target: Character) =
-    slash.effect(this, target)
+    s1.effect(this, target)
   def skill2(target: Character) =
-    slash.effect(this, target)
+    s2.effect(this, target)
   def skill3(target: Character) =
-    slash.effect(this, target)
+    s3.effect(this, target)
   def skill4(target: Character) =
-    slash.effect(this, target)
+    s4.effect(this, target)
 
 }
