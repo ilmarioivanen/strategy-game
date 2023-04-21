@@ -61,6 +61,7 @@ class GameGui(game: Game) extends Scene {
         case None => this.messages.text = "Please select a stage before continuing."
   }
 
+  
   val characterSelect = new CharacterSelect {
 
     for character <- this.charToButtons do

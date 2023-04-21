@@ -19,7 +19,6 @@ class CharacterSelect extends VBox {
     val set3 = setOfCharacters
     set1.zip(set2).zip(set3).map(c => (c._1._1, c._1._2, c._2))
 
-  println(characters.mkString("Array(", ", ", ")"))
 
   for character <- characters do
     val characterButton = new Button(character._1.name)

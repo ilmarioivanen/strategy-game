@@ -67,13 +67,14 @@ class Game {
     val aiDead = aiParty.filter( c => c.isDead )
     userDead.foreach( d => currentUser.removeFromParty(d) )
     aiDead.foreach( d => currentEnemy.removeFromParty(d) )
-    turnCount += 1
-    // Automatically update game state again if AI's turn and make the user wait
-    if aiParty.contains(characterTurn) then
-      val enemyTurn = Future {
-        currentEnemy.takeTurn()
-      }
-      val turnDone = Await.result(enemyTurn, 100.second)
-      update()
+    if !gameOver then
+      turnCount += 1
+      // Automatically update game state again if AI's turn and make the user wait
+      if aiParty.contains(characterTurn) then
+        val enemyTurn = Future {
+          currentEnemy.takeTurn()
+        }
+        val turnDone = Await.result(enemyTurn, 100.second)
+        update()
 
 }

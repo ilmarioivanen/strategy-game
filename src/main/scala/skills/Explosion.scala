@@ -1,0 +1,5 @@
+package skills
+
+class Explosion {
+
+}

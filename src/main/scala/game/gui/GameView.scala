@@ -52,7 +52,7 @@ class GameView extends GridPane {
       spacing = 5
       padding = Insets(10, 10, 10, 10)
       minWidth = 100
-      maxWidth = 150
+      maxWidth = 170
     }
     val enemyPartyInfo = new VBox {
       spacing = 5

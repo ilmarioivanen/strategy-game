@@ -2,24 +2,36 @@ package characters
 
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
+import skills._
 
-class Character(val name: String) {
+abstract class Character(
 
-  // Base values for characters
-  private var dead = false
-  private var done = false
-  private var hp = 100
-  private var mp = 100
-  private var speed = 100
-  // probably needs more stats such as attackDamage and base values that are separate for every stat
-  
+  // The class takes all the base values as constructors
+  val name: String,
+  val baseHp: Int,
+  val baseMp: Int,
+  val baseAtkDmg: Int,
+  val baseMgcDmg: Int,
+  val baseSpeed: Int
+
+) {
+
   // "Character sprite", just a shape for now
-  private var currentSprite = new Rectangle {
+  val currentSprite = new Rectangle {
     width = 50
     height = 50
     fill = Blue
   }
- 
+
+  // Variables for values
+  private var dead = false
+  private var done = false
+  private var hp = baseHp
+  private var mp = baseMp
+  private var atkDmg = baseAtkDmg
+  private var mgcDmg = baseMgcDmg
+  private var speed = baseSpeed
+
   // Methods that are same for every character
   def isDead: Boolean =
     if hp <= 0 then
@@ -28,9 +40,13 @@ class Character(val name: String) {
     else
       dead = false
       dead
+  def endTurn() =
+    done = true
   def usedTurn: Boolean = done
   def currentHp: Int = hp
   def currentMana: Int = mp
+  def currentAtk: Int = atkDmg
+  def currentMgc: Int = mgcDmg
   def currentSpeed: Int = speed
   def takeDamage(dmg: Int): Int =
     this.hp -= dmg
@@ -38,26 +54,22 @@ class Character(val name: String) {
   def sprite = currentSprite
 
 
-  // Default skills
+  // Skills and their names.
+  // These have to be overridden
+  val slash = new Slash
 
-  // Skill names for buttons
-  val skill1Name = "skill1"
-  val skill2Name = "skill2"
-  val skill3Name = "skill3"
-  val skill4Name = "skill4"
+  val skill1Name = slash.name
+  val skill2Name = slash.name
+  val skill3Name = slash.name
+  val skill4Name = slash.name
 
-  def skill1(target: Character): Int =
-    this.done = true
-    target.takeDamage(10)
-  def skill2(target: Character): Int =
-    this.done = true
-    this.mp -= 20
-    target.takeDamage(20)
-  def skill3(target: Character): Int =
-    this.done = true
-    target.takeDamage(10)
-  def skill4(target: Character): Int =
-    this.done = true
-    target.takeDamage(10)
+  def skill1(target: Character) =
+    slash.effect(this, target)
+  def skill2(target: Character) =
+    slash.effect(this, target)
+  def skill3(target: Character) =
+    slash.effect(this, target)
+  def skill4(target: Character) =
+    slash.effect(this, target)
 
 }

@@ -6,5 +6,5 @@ import scalafx.scene.paint.Color.*
 
 class Volcano extends Stage("Volcano") {
 
-  override val background = Background(Array(new BackgroundFill((OrangeRed), CornerRadii.Empty, Insets.Empty)))
+  override val background = Background(Array(new BackgroundFill((DarkOrange), CornerRadii.Empty, Insets.Empty)))
 }
