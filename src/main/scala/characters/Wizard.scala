@@ -3,9 +3,9 @@ package characters
 import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
 
-class Warrior extends Character(
+class Wizard extends Character(
 
-  name = "Warrior",
+  name = "Wizard",
   baseHp = 100,
   baseMp = 100,
   baseAtkDmg = 100,
@@ -18,7 +18,6 @@ class Warrior extends Character(
   override val currentSprite = new Rectangle {
     width = 50
     height = 50
-    fill = Brown
+    fill = Gray
   }
-  
 }

@@ -1,9 +1,10 @@
 package game
 
 import scala.collection.mutable.Buffer
-import players._
-import characters._
-import stages._
+import players.*
+import characters.*
+import skills.Skill
+import stages.*
 import scala.concurrent.*
 import scala.concurrent.duration.*
 import ExecutionContext.Implicits.global
@@ -21,14 +22,15 @@ class Game {
   val currentUser = new UserControlled(this)
   val currentEnemy = new EnemyAI(this)
   val currentPlayers = Buffer[Player](currentUser, currentEnemy)
+  val skillsInBattle = Buffer[Skill]()
 
 
   // add random characters to the enemy party
   // originally for testing but turned out to be useful for avoiding errors and setting up the enemy party
   // bit of a band aid fix that could be avoided
 
-  for i <- 0 until 3 do
-    currentEnemy.addToParty(new Bob)
+//  for i <- 0 until 3 do
+//    currentEnemy.addToParty(new Bob)
 
   // These needed to be methods to update properly
   def selectStage(stage: Stage) =
@@ -59,22 +61,23 @@ class Game {
     if aiParty.contains(bySpeed.head) then
       update()
   
-  def update(): Unit =
-    userLost = userParty.forall(_.isDead)
-    userWon = aiParty.forall(_.isDead)
-    gameOver = userLost || userWon
+  def updateParties() = 
     val userDead = userParty.filter( c => c.isDead )
     val aiDead = aiParty.filter( c => c.isDead )
     userDead.foreach( d => currentUser.removeFromParty(d) )
     aiDead.foreach( d => currentEnemy.removeFromParty(d) )
+    
+  //def updateSkills() = ???
+    
+  def update(): Unit =
+    userLost = userParty.forall(_.isDead)
+    userWon = aiParty.forall(_.isDead)
+    gameOver = userLost || userWon
+    updateParties()
     if !gameOver then
       turnCount += 1
-      // Automatically update game state again if AI's turn and make the user wait
+      // Update game state again if AI's turn and make the user wait
       if aiParty.contains(characterTurn) then
-        val enemyTurn = Future {
-          currentEnemy.takeTurn()
-        }
-        val turnDone = Await.result(enemyTurn, 100.second)
+        currentEnemy.takeTurn()
         update()
-
 }

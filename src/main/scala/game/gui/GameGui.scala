@@ -11,10 +11,12 @@ import javafx.scene.shape.Circle
 import scalafx.geometry.Bounds
 import scalafx.scene.effect.DropShadow
 import scalafx.scene.paint.Color.*
+import scalafx.scene.paint.Color
+import scalafx.scene.shape.Rectangle
 import scalafx.scene.effect
 import scalafx.scene.control.Alert.*
 import scalafx.scene.control.Alert
-import scalafx.scene.paint.Color
+import scala.util.Random.shuffle
 
 // The class was made for switching between normal gameview and the menu.
 // The class got super crowded since all of the buttons have actions that alter the game state
@@ -22,17 +24,21 @@ import scalafx.scene.paint.Color
 class GameGui(game: Game) extends Scene {
 
   // Set up info from game
+  val gui = this
   val user = game.currentUser
   val enemy = game.currentEnemy
   val userParty = game.userParty
   val enemyParty = game.aiParty
-  val bothParties = game.bothParties
-  // Set up sprites
   val characterNodes = Buffer[Node]()
+  private var lastTargetNode: Node = new Rectangle // Some random rectangle as initial value
+
+  def bothParties = game.bothParties // This needed to be a method to function properly
+
 
   // Set up the base gameview
   val gameView = new GameView
 
+  // Set up the main menu
   val gameMenu = new Menu {
 
     continue.onAction = (event) =>
@@ -48,6 +54,7 @@ class GameGui(game: Game) extends Scene {
       //loadGame.onAction
   }
 
+  // Set up the stage select screen
   val stageSelect = new StageSelect {
     // also a message if no stage is chosen
     for stage <- this.stagesToButtons do
@@ -61,7 +68,7 @@ class GameGui(game: Game) extends Scene {
         case None => this.messages.text = "Please select a stage before continuing."
   }
 
-  
+  // Set up the character select screen
   val characterSelect = new CharacterSelect {
 
     for character <- this.charToButtons do
@@ -74,7 +81,7 @@ class GameGui(game: Game) extends Scene {
               character._1._2
           else
             character._1._1
-        game.currentUser.addToParty(char)
+        user.addToParty(char)
         this.part2.text = game.userParty.map(_.name).mkString(", ")
 
     clear.onAction = (event) =>
@@ -86,13 +93,21 @@ class GameGui(game: Game) extends Scene {
         this.messages.text = "Please add at least one character to your party."
       else
         openView(gameView)
-        game.startGame()
         // Initial updates
+        // Clear the placeholder characters from the enemy party
+        enemyParty.clear()
+        for n <- userParty.indices do
+          // Also add same amount of characters to enemy party
+          val enemyChar = shuffle(setOfCharacters).head
+          enemy.addToParty(enemyChar)
         updateInfo()
         updateButtons()
         updateNodes()
         inTurn()
+        game.startGame()
+        InputManager.handleInput(gui)
 
+    // Clear the party initially
     clear.onAction
   }
 
@@ -101,6 +116,24 @@ class GameGui(game: Game) extends Scene {
   val skill2Button = gameView.button2
   val skill3Button = gameView.button3
   val skill4Button = gameView.button4
+
+  // Set up button events
+  skill1Button.onAction = (event) =>
+    game.skillsInBattle += game.characterTurn.skill1(target)
+    update()
+  skill2Button.onAction = (event) =>
+    game.skillsInBattle += game.characterTurn.skill2(target)
+    update()
+  skill3Button.onAction = (event) =>
+    game.skillsInBattle += game.characterTurn.skill3(target)
+    update()
+  skill4Button.onAction = (event) =>
+    game.skillsInBattle += game.characterTurn.skill4(target)
+    update()
+
+  // This was originally a map.
+  def characterMap =
+    characterNodes.zip(bothParties)
 
   // Set up text info
   def setTextInfo() =
@@ -145,6 +178,7 @@ class GameGui(game: Game) extends Scene {
       gameView.children += sprite
       characterNodes += sprite
 
+
   def inTurn() =
     // reset old turn effects
     gameView.children.foreach(_.setEffect(null))
@@ -159,7 +193,9 @@ class GameGui(game: Game) extends Scene {
     nodeInTurn match
       case Some(node) =>
         node.effect = turnEffect
-      case None => // some error since some character should always be in turn
+      case None =>
+        println("Someone should be in turn.") // should maybe throw an error
+
 
   def targeted(targetNode: Node) =
     // reset old target effects
@@ -202,11 +238,17 @@ class GameGui(game: Game) extends Scene {
     skill3Button.text = cTurn.skill3Name
     skill4Button.text = cTurn.skill4Name
 
+  def updateSkillVisuals() =
+    for skill <- game.skillsInBattle.filter(_.instant) do
+      gameView.children += skill.visual
+      gameView.children -= skill.visual
+
   // Update method that updates everything
   def update() =
     game.update()
-    updateNodes()
+    updateSkillVisuals()
     updateInfo()
+    updateNodes()
     if game.isOver then
       new Alert(AlertType.Information) {
         title = "Game Over!"
@@ -221,32 +263,14 @@ class GameGui(game: Game) extends Scene {
       targeted(lastTargetNode)
 
 
-  // Set up button events
-  skill1Button.onAction = (event) =>
-    userParty.head.skill1(target)
-    update()
-  skill2Button.onAction = (event) =>
-    userParty.head.skill2(target)
-    update()
-  skill3Button.onAction = (event) =>
-    userParty.head.skill3(target)
-    update()
-  skill4Button.onAction = (event) =>
-    userParty.head.skill4(target)
-    update()
 
-
-  this.root = gameMenu
-  InputManager.handleInput(this) // This could be placed elsewhere to avoid inputs when there aren't targets for example
 
   // Method to swap roots
   def openView(view: Parent) =
     this.root = view
 
-  // Initial updates to avoid errors due to missing targets
-  // Probably should've implemented this better
-  updateNodes()
-  val characterMap = characterNodes.zip(bothParties) // This was originally a map.
-  private var lastTargetNode = characterNodes.head
 
+
+  //
+  this.root = gameMenu
 }

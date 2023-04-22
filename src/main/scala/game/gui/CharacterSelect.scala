@@ -9,7 +9,7 @@ import scala.collection.mutable.Buffer
 class CharacterSelect extends VBox {
 
 
-  def setOfCharacters = Array(new Bob, new Gigachu)
+  def setOfCharacters = Array(new Bob, new Gigachu, new Ranger, new Rogue, new Warrior, new Wizard)
 
   private val characterButtons = Buffer[Button]()
 

@@ -1,5 +1,0 @@
-package characters
-
-class Mage {
-
-}

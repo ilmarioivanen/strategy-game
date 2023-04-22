@@ -14,5 +14,12 @@ class Bob extends Character(
   
 ) {
 
+  // "Character sprite", just a shape for now
+  override val currentSprite = new Rectangle {
+    width = 50
+    height = 50
+    fill = Blue
+  }
+  
   
 }

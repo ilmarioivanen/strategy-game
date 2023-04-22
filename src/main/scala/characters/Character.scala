@@ -4,7 +4,7 @@ import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
 import skills._
 
-abstract class Character(
+class Character(
 
   // The class takes all the base values as constructors
   val name: String,
@@ -20,7 +20,7 @@ abstract class Character(
   val currentSprite = new Rectangle {
     width = 50
     height = 50
-    fill = Blue
+    fill = White
   }
 
   // Variables for values
@@ -54,6 +54,7 @@ abstract class Character(
 
 
   // Skills and their names
+  // These are the base skills that have to be overridden
   val skills = Array(new Slash, new Slash, new Slash, new Slash)
 
   val s1 = skills(0)
@@ -66,13 +67,13 @@ abstract class Character(
   val skill3Name = s3.name
   val skill4Name = s4.name
 
-  def skill1(target: Character) =
+  def skill1(target: Character): Skill =
     s1.effect(this, target)
-  def skill2(target: Character) =
+  def skill2(target: Character): Skill =
     s2.effect(this, target)
-  def skill3(target: Character) =
+  def skill3(target: Character): Skill =
     s3.effect(this, target)
-  def skill4(target: Character) =
+  def skill4(target: Character): Skill =
     s4.effect(this, target)
 
 }
