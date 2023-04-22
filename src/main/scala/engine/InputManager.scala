@@ -17,7 +17,7 @@ object InputManager {
 
   def lastTarget = lastTargetOption
 
-  def handleInput(scene: GameGui) =
+  def handleInput(scene: GameGui): Unit =
 
     scene.onKeyPressed = event =>
       if event.code == KeyCode.Escape then scene.openView(scene.gameMenu)

@@ -42,20 +42,36 @@ class Character(
       dead
   def endTurn() =
     done = true
+  def hasMp =
+    currentMp > 0
   def usedTurn: Boolean = done
   def currentHp: Int = hp
-  def currentMana: Int = mp
+  def currentMp: Int = mp
   def currentAtk: Int = atkDmg
   def currentMgc: Int = mgcDmg
   def currentSpeed: Int = speed
-  def takeDamage(dmg: Int): Unit =
-    this.hp -= dmg
   def sprite = currentSprite
+  
+  // Methods for changing the stats
+  def changeHp(d: Int) = // Basically just same as takeDamage method but kept it for clarity
+    hp += d
+  def heal(d: Int) =
+    hp = baseHp.min(currentMp + d) // healing can't go over base health
+  def changeMp(d: Int) =
+    mp += d
+  def changeAtk(d: Int) =
+    atkDmg += d
+  def changeMgc(d: Int) =
+    mgcDmg += d
+  def changeSpeed(d: Int) =
+    speed += d
+  def takeDamage(dmg: Int) =
+    hp -= dmg
 
 
   // Skills and their names
   // These are the base skills that have to be overridden
-  val skills = Array(new Slash, new Slash, new Slash, new Slash)
+  def skills: Array[Skill] = Array(new Slash, new Slash, new Slash, new Slash)
 
   val s1 = skills(0)
   val s2 = skills(1)

@@ -1,15 +1,16 @@
 package characters
 
-import scalafx.scene.paint.Color._
+import scalafx.scene.paint.Color.*
 import scalafx.scene.shape.Rectangle
+import skills.*
 
 class Ranger extends Character(
 
   name = "Ranger",
-  baseHp = 100,
-  baseMp = 100,
-  baseAtkDmg = 100,
-  baseMgcDmg = 100,
+  baseHp = 120,
+  baseMp = 50,
+  baseAtkDmg = 120,
+  baseMgcDmg = 50,
   baseSpeed = 100
   
 ) {
@@ -20,5 +21,7 @@ class Ranger extends Character(
     height = 50
     fill = DarkGreen
   }
+  
+  override def skills = Array(new QuickShot, new Cripple, new Barrage, new Poison)
   
 }

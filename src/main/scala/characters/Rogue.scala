@@ -1,16 +1,17 @@
 package characters
 
-import scalafx.scene.paint.Color.Black
+import scalafx.scene.paint.Color.*
 import scalafx.scene.shape.Rectangle
+import skills.*
 
 class Rogue extends Character(
 
   name = "Rogue",
-  baseHp = 100,
-  baseMp = 100,
-  baseAtkDmg = 100,
-  baseMgcDmg = 100,
-  baseSpeed = 100
+  baseHp = 75,
+  baseMp = 50,
+  baseAtkDmg = 120,
+  baseMgcDmg = 50,
+  baseSpeed = 120
   
 ) {
 
@@ -20,5 +21,7 @@ class Rogue extends Character(
     height = 50
     fill = Black
   }
+  
+  override def skills = Array(new Slash, new ShadowStrike, new Poison, new Dodge)
   
 }

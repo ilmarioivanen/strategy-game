@@ -1,7 +1,7 @@
 package skills
 
-import characters._
-import scalafx.scene.paint.Color._
+import characters.*
+import scalafx.scene.paint.Color.*
 import scalafx.scene.shape.Rectangle
 
 class Slash extends Skill(
@@ -11,8 +11,7 @@ class Slash extends Skill(
   heals = false,
   negative = false,
   nerfs = false,
-  instant = true,
-  turns = 0
+  mpCost = 0
   
 ) {
   
@@ -27,8 +26,8 @@ class Slash extends Skill(
     (user.baseAtkDmg * 0.2).toInt
   
   def effect(user: Character, target: Character): Skill =
-    user.endTurn()
     target.takeDamage(dmg(user))
+    user.endTurn()
     this
     
 }

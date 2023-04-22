@@ -5,10 +5,9 @@ import players.*
 import characters.*
 import skills.Skill
 import stages.*
-import scala.concurrent.*
-import scala.concurrent.duration.*
-import ExecutionContext.Implicits.global
-import scala.concurrent.Future
+import scalafx.scene.Node
+import scala.util.Random
+import scala.util.Random.*
 
 class Game {
 
@@ -23,14 +22,8 @@ class Game {
   val currentEnemy = new EnemyAI(this)
   val currentPlayers = Buffer[Player](currentUser, currentEnemy)
   val skillsInBattle = Buffer[Skill]()
+  val stageVisuals = Buffer[Node]()
 
-
-  // add random characters to the enemy party
-  // originally for testing but turned out to be useful for avoiding errors and setting up the enemy party
-  // bit of a band aid fix that could be avoided
-
-//  for i <- 0 until 3 do
-//    currentEnemy.addToParty(new Bob)
 
   // These needed to be methods to update properly
   def selectStage(stage: Stage) =
@@ -41,7 +34,7 @@ class Game {
   def bothParties = userParty ++ aiParty
   def partySize = bothParties.size
   // Sort parties by speed
-  def bySpeed = bothParties.sortBy(_.currentSpeed)
+  def bySpeed = bothParties.sortBy(_.currentSpeed).reverse // fastest first
   def characterTurn =
     require(partySize > 0, "Party size cannot be negative!")
     bySpeed(turnCount % partySize)
@@ -57,9 +50,7 @@ class Game {
     gameStarted = false
   def startGame() = 
     gameStarted = true
-    // also checks if the AI is first in turn
-    if aiParty.contains(bySpeed.head) then
-      update()
+ 
   
   def updateParties() = 
     val userDead = userParty.filter( c => c.isDead )
@@ -67,13 +58,23 @@ class Game {
     userDead.foreach( d => currentUser.removeFromParty(d) )
     aiDead.foreach( d => currentEnemy.removeFromParty(d) )
     
-  //def updateSkills() = ???
+  def stageEffect() =
+    currentStage match
+      case Some(stage) =>
+        stageVisuals.clear()
+        // select a random target
+        val randomChar = shuffle(bothParties).head
+        stageVisuals += stage.effect(randomChar)
+
+      case None => println("Stage is missing")
+
     
   def update(): Unit =
     userLost = userParty.forall(_.isDead)
-    userWon = aiParty.forall(_.isDead)
+    userWon = aiParty.forall(_.isDead) && !userLost
     gameOver = userLost || userWon
     updateParties()
+    stageEffect()
     if !gameOver then
       turnCount += 1
       // Update game state again if AI's turn and make the user wait

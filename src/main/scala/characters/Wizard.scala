@@ -1,16 +1,17 @@
 package characters
 
-import scalafx.scene.paint.Color._
+import scalafx.scene.paint.Color.*
 import scalafx.scene.shape.Rectangle
+import skills.*
 
 class Wizard extends Character(
 
   name = "Wizard",
-  baseHp = 100,
-  baseMp = 100,
-  baseAtkDmg = 100,
-  baseMgcDmg = 100,
-  baseSpeed = 100
+  baseHp = 75,
+  baseMp = 150,
+  baseAtkDmg = 50,
+  baseMgcDmg = 150,
+  baseSpeed = 75
   
 ) {
 
@@ -20,4 +21,7 @@ class Wizard extends Character(
     height = 50
     fill = Gray
   }
+
+  override def skills = Array(new Fireball, new CalmMind, new Explosion, new Heal)
+
 }

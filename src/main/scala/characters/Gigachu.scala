@@ -2,6 +2,7 @@ package characters
 
 import scalafx.scene.paint.Color.*
 import scalafx.scene.shape.Rectangle
+import skills.*
 
 class Gigachu extends Character(
   
@@ -9,7 +10,7 @@ class Gigachu extends Character(
   baseHp = 75,
   baseMp = 150,
   baseAtkDmg = 50,
-  baseMgcDmg = 150,
+  baseMgcDmg = 120,
   baseSpeed = 200
 
 ) {
@@ -21,4 +22,6 @@ class Gigachu extends Character(
     fill = Yellow
   }
 
+  override def skills = Array(new Slash, new Thunder, new CaffeineOverdose, new BattleCry)
+  
 }

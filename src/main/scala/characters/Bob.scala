@@ -1,7 +1,8 @@
 package characters
 
 import scalafx.scene.shape.Rectangle
-import scalafx.scene.paint.Color._
+import scalafx.scene.paint.Color.*
+import skills.*
 
 class Bob extends Character(
 
@@ -21,5 +22,6 @@ class Bob extends Character(
     fill = Blue
   }
   
+  override def skills = Array(new Slash, new Fireball, new QuickShot, new Dodge)
   
 }

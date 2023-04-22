@@ -39,7 +39,8 @@ class GameGui(game: Game) extends Scene {
   val gameView = new GameView
 
   // Set up the main menu
-  val gameMenu = new Menu {
+  // Needed to specify type
+  val gameMenu: Menu = new Menu {
 
     continue.onAction = (event) =>
       if game.isStarted then
@@ -50,8 +51,8 @@ class GameGui(game: Game) extends Scene {
     newGame.onAction = (event) =>
       openView(stageSelect)
       this.messages.text = ""
-      //saveGame.onAction
-      //loadGame.onAction
+    //saveGame.onAction
+    //loadGame.onAction
   }
 
   // Set up the stage select screen
@@ -94,17 +95,20 @@ class GameGui(game: Game) extends Scene {
       else
         openView(gameView)
         // Initial updates
-        // Clear the placeholder characters from the enemy party
-        enemyParty.clear()
+        // Also add the same amount of characters to enemy party
         for n <- userParty.indices do
-          // Also add same amount of characters to enemy party
           val enemyChar = shuffle(setOfCharacters).head
           enemy.addToParty(enemyChar)
-        updateInfo()
-        updateButtons()
-        updateNodes()
-        inTurn()
-        game.startGame()
+        // Also checks if the AI is first in turn
+        // if yes then update everything
+        if enemyParty.contains(game.bySpeed.head) then
+          update()
+        else
+          game.startGame()
+          updateInfo()
+          updateButtons()
+          updateNodes()
+          inTurn()
         InputManager.handleInput(gui)
 
     // Clear the party initially
@@ -142,9 +146,9 @@ class GameGui(game: Game) extends Scene {
     userInfo.children += Label("Your party:")
     enemyInfo.children += Label("Enemy party:")
     for character <- userParty do
-      userInfo.children += Label(s"${character.name}:   ${character.currentHp} HP    ${character.currentMana} MP")
+      userInfo.children += Label(s"${character.name}:   ${character.currentHp} HP    ${character.currentMp} MP")
     for character <- enemyParty do
-      enemyInfo.children += Label(s"${character.name}:   ${character.currentHp} HP    ${character.currentMana} MP")
+      enemyInfo.children += Label(s"${character.name}:   ${character.currentHp} HP    ${character.currentMp} MP")
 
   def setCharacters() =
     for character <- userParty do
@@ -239,14 +243,14 @@ class GameGui(game: Game) extends Scene {
     skill4Button.text = cTurn.skill4Name
 
   def updateSkillVisuals() =
-    for skill <- game.skillsInBattle.filter(_.instant) do
+    for skill <- game.skillsInBattle do
       gameView.children += skill.visual
       gameView.children -= skill.visual
 
   // Update method that updates everything
   def update() =
     game.update()
-    updateSkillVisuals()
+    //updateSkillVisuals()
     updateInfo()
     updateNodes()
     if game.isOver then
@@ -263,13 +267,9 @@ class GameGui(game: Game) extends Scene {
       targeted(lastTargetNode)
 
 
-
-
   // Method to swap roots
   def openView(view: Parent) =
     this.root = view
-
-
 
   //
   this.root = gameMenu

@@ -1,5 +1,0 @@
-package skills
-
-class Protect {
-
-}
