@@ -21,8 +21,8 @@ class Game {
   val currentUser = new UserControlled(this)
   val currentEnemy = new EnemyAI(this)
   val currentPlayers = Buffer[Player](currentUser, currentEnemy)
-  val skillsInBattle = Buffer[Skill]()
-  val stageVisuals = Buffer[Node]()
+  val skillsInBattle = Buffer[(Skill, Character, Character)]()
+  val stageEffects = Buffer[(Node, String)]()
 
 
   // These needed to be methods to update properly
@@ -61,10 +61,15 @@ class Game {
   def stageEffect() =
     currentStage match
       case Some(stage) =>
-        stageVisuals.clear()
-        // select a random target
-        val randomChar = shuffle(bothParties).head
-        stageVisuals += stage.effect(randomChar)
+        stageEffects.clear()
+        // effect happens randomly
+        val chance = 50
+        val random = Random(System.nanoTime())
+        val rNum = random.nextInt(100)
+        if rNum <= chance then
+          // select a random target every turn
+          val randomChar = shuffle(bothParties).head
+          stageEffects += stage.effect(randomChar)
 
       case None => println("Stage is missing")
 

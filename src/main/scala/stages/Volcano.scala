@@ -17,8 +17,11 @@ class Volcano extends Stage("Volcano") {
     val eruption = new Explosion
     eruption.effect(target, target)
 
-    new Circle() {
+    // Placeholder visual
+    val visual = new Circle() {
       fill = Red
     }
+    val description = s"The volcano erupted! ${target.name} was affected!"
 
+    (visual, description)
 }

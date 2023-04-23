@@ -15,21 +15,19 @@ class Thunder extends Skill(
 
 ) {
 
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
 
   def dmg(user: Character) =
     (user.baseMgcDmg * 0.5).toInt
 
-  def effect(user: Character, target: Character): Skill =
-    if user.hasMp then
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
+    if user.hasMp(mpCost) then
       user.changeMp(-mpCost)
       target.takeDamage(dmg(user))
     user.endTurn()
-    this
+    (this, user, target)
 
 }

@@ -6,7 +6,7 @@ import scalafx.scene.shape.Rectangle
 
 class CalmMind extends Skill(
   
-  name = "Calm mind",
+  name = "Calm Mind",
   attack = false,
   heals = false,
   negative = false,
@@ -15,20 +15,19 @@ class CalmMind extends Skill(
   
 ) {
   
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
   
   def dmg(user: Character) = 0
   
-  def effect(user: Character, target: Character): Skill =
-    if user.hasMp then
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
+    if user.hasMp(mpCost) then
       user.changeMp(-mpCost)
       target.changeMgc(20)
+      target.changeAtk(20)
     user.endTurn()
-    this
+    (this, user, target)
 
 }

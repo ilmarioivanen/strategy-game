@@ -15,21 +15,19 @@ class Barrage extends Skill(
   
 ) {
   
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
   
   def dmg(user: Character) = 
     (user.baseAtkDmg * 0.1).toInt
   
-  def effect(user: Character, target: Character): Skill =
-    while user.hasMp do
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
+    while user.hasMp(mpCost) do
       user.changeMp(-mpCost)
       target.takeDamage(dmg(user))
     user.endTurn()
-    this
+    (this, user, target) 
     
 }

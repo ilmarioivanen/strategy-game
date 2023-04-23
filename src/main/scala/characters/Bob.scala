@@ -7,11 +7,11 @@ import skills.*
 class Bob extends Character(
 
   name = "Bob",
-  baseHp = 100,
-  baseMp = 100,
-  baseAtkDmg = 100,
-  baseMgcDmg = 100,
-  baseSpeed = 100
+  baseHp = 80,
+  baseMp = 80,
+  baseAtkDmg = 80,
+  baseMgcDmg = 80,
+  baseSpeed = 80
   
 ) {
 
@@ -22,6 +22,6 @@ class Bob extends Character(
     fill = Blue
   }
   
-  override def skills = Array(new Slash, new Fireball, new QuickShot, new Dodge)
+  override def skills = Array(new Heal, new Fireball, new QuickShot, new Dodge)
   
 }

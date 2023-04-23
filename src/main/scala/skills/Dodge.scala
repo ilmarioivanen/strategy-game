@@ -7,7 +7,7 @@ import scalafx.scene.shape.Rectangle
 class Dodge extends Skill(
 
   name = "Dodge",
-  attack = false,
+  attack = true,
   heals = false,
   negative = false,
   nerfs = false,
@@ -15,18 +15,18 @@ class Dodge extends Skill(
 
 ) {
 
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
 
-  def dmg(user: Character) = 0
+  def dmg(user: Character) =
+    (user.baseAtkDmg * 0.05).toInt
 
-  def effect(user: Character, target: Character): Skill =
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
     user.changeMp(20)
+    target.takeDamage(dmg(user))
     user.endTurn()
-    this
+    (this, user, target)
 
 }

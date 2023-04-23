@@ -2,7 +2,7 @@ package skills
 
 import characters.*
 import scalafx.scene.paint.Color.Black
-import scalafx.scene.shape.Shape
+import scalafx.scene.Node
 
 trait Skill(
 
@@ -15,14 +15,15 @@ trait Skill(
            
 ) {
 
-  val visual: Shape
+  // 
+  val visual: Node
   
   // Method for calculating how much the skill user would deal damage
   // Needed so the ai can get the proper numbers
   // Needs to be abstract since the way damage is calcualted is different between skills
   def dmg(user: Character): Int 
   
-  // Effect of the skill, returns the skill itself for later use
-  def effect(user: Character, target: Character): Skill
+  // Effect of the skill, returns the skill, user and target
+  def effect(user: Character, target: Character): (Skill, Character, Character)
   
 }

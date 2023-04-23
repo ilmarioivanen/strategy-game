@@ -17,6 +17,8 @@ import scalafx.scene.effect
 import scalafx.scene.control.Alert.*
 import scalafx.scene.control.Alert
 import scala.util.Random.shuffle
+import scalafx.animation.*
+import scalafx.geometry.Pos.*
 
 // The class was made for switching between normal gameview and the menu.
 // The class got super crowded since all of the buttons have actions that alter the game state
@@ -100,8 +102,9 @@ class GameGui(game: Game) extends Scene {
           val enemyChar = shuffle(setOfCharacters).head
           enemy.addToParty(enemyChar)
         // Also checks if the AI is first in turn
-        // if yes then update everything
+        // if yes then the enemy takes the first turn and then update everything
         if enemyParty.contains(game.bySpeed.head) then
+          enemy.takeTurn()
           update()
         else
           game.startGame()
@@ -226,7 +229,7 @@ class GameGui(game: Game) extends Scene {
 
   def updateNodes() =
     characterNodes.foreach(n => gameView.children -= n)
-    characterNodes.empty
+    characterNodes.clear()
     setCharacters()
 
   // Maybe a bit inefficient and unnecessary to clear everything in updateNodes() and updateInfo()
@@ -242,15 +245,32 @@ class GameGui(game: Game) extends Scene {
     skill3Button.text = cTurn.skill3Name
     skill4Button.text = cTurn.skill4Name
 
-  def updateSkillVisuals() =
+
+  // skillInfo and updateSkills() are last minute solution that shows text descriptions of skills
+  // also slapped last minute stage effects (descriptions) here
+  // Planned to use the method for updating/animating the visual skill effects
+  val skillInfo = new Label("")
+  skillInfo.translateX = 200
+  skillInfo.translateY = 80
+  gameView.children += skillInfo
+
+  def updateSkills() =
+    var allInfo = ""
+    for effect <- game.stageEffects do
+      val description = effect._2
+      allInfo += description + "\n"
     for skill <- game.skillsInBattle do
-      gameView.children += skill.visual
-      gameView.children -= skill.visual
+      val skillName = skill._1.name
+      val user = skill._2.name
+      val target = skill._3.name
+      allInfo += s"$user used $skillName on $target!\n"
+    skillInfo.text = allInfo
+    game.skillsInBattle.clear()
 
   // Update method that updates everything
   def update() =
     game.update()
-    //updateSkillVisuals()
+    updateSkills()
     updateInfo()
     updateNodes()
     if game.isOver then

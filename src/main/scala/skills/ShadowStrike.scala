@@ -6,7 +6,7 @@ import scalafx.scene.shape.Rectangle
 
 class ShadowStrike extends Skill(
 
-  name = "Shadow Strike",
+  name = "ShadowStrike",
   attack = true,
   heals = false,
   negative = false,
@@ -15,11 +15,9 @@ class ShadowStrike extends Skill(
 
 ) {
 
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
 
   def dmg(user: Character) =
@@ -28,12 +26,12 @@ class ShadowStrike extends Skill(
     else
       (user.baseAtkDmg * 0.25).toInt
 
-  def effect(user: Character, target: Character): Skill =
-    if user.hasMp then
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
+    if user.hasMp(mpCost) then
       user.changeMp(-mpCost)
       target.takeDamage(dmg(user))
       target.changeMp(-mpCost)
     user.endTurn()
-    this
+    (this, user, target)
 
 }

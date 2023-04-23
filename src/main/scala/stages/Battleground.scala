@@ -16,9 +16,13 @@ class Battleground extends Stage("Battleground") {
   
   // Battleground has no special effect
   def effect(target: Character) =
-    new Circle() {
+
+    // Placeholder visual
+    val visual = new Circle() {
       fill = Green
     }
-    
+    val description = "Wind blows on the battlefield."
+
+    (visual, description)
 }
 

@@ -6,32 +6,30 @@ import scalafx.scene.shape.Rectangle
 
 class BattleCry extends Skill(
   
-  name = "Battle cry",
+  name = "Battle Cry",
   attack = false,
-  heals = true,
+  heals = false, // Techically doesn't heal since this changes hp regardless of base hp
   negative = false,
   nerfs = false,
   mpCost = 50
   
 ) {
   
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
   
   def dmg(user: Character) = 0
   
-  def effect(user: Character, target: Character): Skill =
-    if user.hasMp then
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
+    if user.hasMp(mpCost) then
       user.changeMp(-mpCost)
       target.changeHp(20)
       target.changeAtk(20)
       target.changeMgc(10)
       target.changeSpeed(10)
     user.endTurn()
-    this
+    (this, user, target)
     
 }

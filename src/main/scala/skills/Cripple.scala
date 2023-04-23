@@ -15,20 +15,18 @@ class Cripple extends Skill(
   
 ) {
   
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
   
   def dmg(user: Character) = 
     (user.baseAtkDmg * 0.1).toInt
   
-  def effect(user: Character, target: Character): Skill =
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
     target.takeDamage(dmg(user))
     target.changeSpeed(-50)
     user.endTurn()
-    this
+    (this, user, target)
     
 }

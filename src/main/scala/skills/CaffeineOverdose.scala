@@ -16,16 +16,14 @@ class CaffeineOverdose extends Skill(
 
 ) {
 
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
 
   def dmg(user: Character) = 0
 
-  def effect(user: Character, target: Character): Skill =
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
     val random = Random(System.nanoTime())
     val modifier = random.nextInt(200)
     target.takeDamage(10)
@@ -33,6 +31,6 @@ class CaffeineOverdose extends Skill(
     target.changeMgc(modifier)
     target.changeSpeed(modifier)
     user.endTurn()
-    this
+    (this, user, target)
 
 }

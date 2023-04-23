@@ -16,9 +16,12 @@ class Desert extends Stage("Desert") {
     
     val slow = new Cripple
     slow.effect(target, target)
-    
-    new Circle() {
+
+    // Placeholder visual
+    val visual = new Circle() {
       fill = Brown
     }
-    
+    val description = s"The sandstorm has slowed down ${target.name}."
+
+    (visual, description)
 }

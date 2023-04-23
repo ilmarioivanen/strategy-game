@@ -42,8 +42,8 @@ class Character(
       dead
   def endTurn() =
     done = true
-  def hasMp =
-    currentMp > 0
+  def hasMp(cost: Int) =
+    currentMp >= cost
   def usedTurn: Boolean = done
   def currentHp: Int = hp
   def currentMp: Int = mp
@@ -83,13 +83,13 @@ class Character(
   val skill3Name = s3.name
   val skill4Name = s4.name
 
-  def skill1(target: Character): Skill =
+  def skill1(target: Character): (Skill, Character, Character) =
     s1.effect(this, target)
-  def skill2(target: Character): Skill =
+  def skill2(target: Character): (Skill, Character, Character) =
     s2.effect(this, target)
-  def skill3(target: Character): Skill =
+  def skill3(target: Character): (Skill, Character, Character) =
     s3.effect(this, target)
-  def skill4(target: Character): Skill =
+  def skill4(target: Character): (Skill, Character, Character) =
     s4.effect(this, target)
 
 }

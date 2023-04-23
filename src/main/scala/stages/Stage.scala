@@ -12,8 +12,8 @@ trait Stage(val name: String) {
   // default background
   val background = Background(Array(new BackgroundFill((White), CornerRadii.Empty, Insets.Empty)))
   
-  // method for stage effects, returns node to show in gui
-  def effect(target: Character): Node
+  // method for stage effects, returns visual and description of what happened
+  def effect(target: Character): (Node, String)
   
 }
 

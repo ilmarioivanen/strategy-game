@@ -15,20 +15,18 @@ class QuickShot extends Skill(
 
 ) {
 
+  // Placeholder visual
   override val visual = new Rectangle {
-    width = 5
-    height = 40
     fill = Black
-    rotate = 100
   }
 
   def dmg(user: Character) =
     (user.baseAtkDmg * 0.2).toInt
 
-  def effect(user: Character, target: Character): Skill =
+  def effect(user: Character, target: Character): (Skill, Character, Character) =
     user.endTurn()
     user.changeSpeed(10)
     target.takeDamage(dmg(user))
-    this
+    (this, user, target)
 
 }
