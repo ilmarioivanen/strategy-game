@@ -53,8 +53,21 @@ class GameGui(game: Game) extends Scene {
     newGame.onAction = (event) =>
       openView(stageSelect)
       this.messages.text = ""
-    //saveGame.onAction
-    //loadGame.onAction
+
+    saveGame.onAction = (event) =>
+      try
+        game.fileManager.saveGame("save1", game)
+      catch
+        case e: Throwable => errorAlert("Saving the game failed.", e)
+
+    loadGame.onAction = (event) =>
+      try
+        game.fileManager.loadGame("save1", game)
+        // Gui needs to be updated
+        InputManager.handleInput(gui)
+        updateGui()
+      catch
+        case e: Throwable => errorAlert("Loading the game failed.", e)
   }
 
   // Set up the stage select screen
@@ -62,7 +75,6 @@ class GameGui(game: Game) extends Scene {
     // also a message if no stage is chosen
     for stage <- this.stagesToButtons do
       stage._2.onAction = (event) =>
-        gameView.setBackground(stage._1.background)
         game.selectStage(stage._1)
         this.part2.text = stage._1.name
     this.next.onAction = (event) =>
@@ -95,24 +107,22 @@ class GameGui(game: Game) extends Scene {
       if game.userParty.isEmpty then
         this.messages.text = "Please add at least one character to your party."
       else
+        // Start the game
         openView(gameView)
-        // Initial updates
-        // Also add the same amount of characters to enemy party
+        game.startGame()
+        InputManager.handleInput(gui)
+        // Add characters to enemy party so party sizes match
         for n <- userParty.indices do
           val enemyChar = shuffle(setOfCharacters).head
           enemy.addToParty(enemyChar)
-        // Also checks if the AI is first in turn
+        // Check if the AI is first in turn
         // if yes then the enemy takes the first turn and then update everything
+        // else update only the gui for the user
         if enemyParty.contains(game.bySpeed.head) then
           enemy.takeTurn()
           update()
         else
-          game.startGame()
-          updateInfo()
-          updateButtons()
-          updateNodes()
-          inTurn()
-        InputManager.handleInput(gui)
+          updateGui()
 
     // Clear the party initially
     clear.onAction
@@ -185,7 +195,6 @@ class GameGui(game: Game) extends Scene {
       gameView.children += sprite
       characterNodes += sprite
 
-
   def inTurn() =
     // reset old turn effects
     gameView.children.foreach(_.setEffect(null))
@@ -202,7 +211,6 @@ class GameGui(game: Game) extends Scene {
         node.effect = turnEffect
       case None =>
         println("Someone should be in turn.") // should maybe throw an error
-
 
   def targeted(targetNode: Node) =
     // reset old target effects
@@ -226,6 +234,28 @@ class GameGui(game: Game) extends Scene {
           character
       case None => enemyParty.head
       // the first enemy is attacked if the user hasn't clicked anything
+
+  // Alert when game is over
+  def gameOverAlert =
+    new Alert(AlertType.Information) {
+        title = "Game Over!"
+        headerText = game.winnerText
+        contentText = "You are now going back to the menu screen."
+      }.showAndWait()
+
+  // Method for file manager errors
+  def errorAlert(msg: String, exception: Throwable) =
+    new Alert(AlertType.Error) {
+      title = "Error"
+      headerText = msg
+      contentText = exception.toString
+      exception.printStackTrace() // Print exception to console.
+    }.showAndWait()
+
+  def updateBackground() =
+    game.stage match
+      case Some(stage) => gameView.setBackground(stage.background)
+      case None => println("No stage found")
 
   def updateNodes() =
     characterNodes.foreach(n => gameView.children -= n)
@@ -267,23 +297,24 @@ class GameGui(game: Game) extends Scene {
     skillInfo.text = allInfo
     game.skillsInBattle.clear()
 
+  // Update method that updates the gui
+  def updateGui() =
+    updateBackground()
+    updateSkills()
+    updateInfo()
+    updateButtons()
+    updateNodes()
+    inTurn()
+
   // Update method that updates everything
   def update() =
     game.update()
-    updateSkills()
-    updateInfo()
-    updateNodes()
+    updateGui()
     if game.isOver then
-      new Alert(AlertType.Information) {
-        title = "Game Over!"
-        headerText = game.winner
-        contentText = "You are now going back to the menu screen."
-      }.showAndWait()
+      gameOverAlert
       openView(gameMenu)
       game.endGame()
     else
-      updateButtons()
-      inTurn()
       targeted(lastTargetNode)
 
 

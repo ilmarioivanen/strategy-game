@@ -26,7 +26,7 @@
     <orderEntry type="library" name="sbt: org.openjfx:javafx-swing:19:win:jar" level="project" />
     <orderEntry type="library" name="sbt: org.openjfx:javafx-web:19:jar" level="project" />
     <orderEntry type="library" name="sbt: org.openjfx:javafx-web:19:win:jar" level="project" />
-    <orderEntry type="library" scope="TEST" name="sbt: org.scala-lang.modules:scala-xml_3:2.1.0:jar" level="project" />
+    <orderEntry type="library" name="sbt: org.scala-lang.modules:scala-xml_3:2.1.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala-library:2.13.8:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scala-lang:scala3-library_3:3.2.0:jar" level="project" />
     <orderEntry type="library" name="sbt: org.scalactic:scalactic_3:3.2.15:jar" level="project" />

@@ -11,13 +11,9 @@ class Menu extends VBox {
   
   val newGame = new Button("New Game")
  
-  val saveGame = new Button("Save Game") {
-    onAction = (event) => println("saved")
-  }
+  val saveGame = new Button("Save Game")
 
-  val loadGame = new Button("Load Game") {
-    onAction = (event) => println("loaded")
-  }
+  val loadGame = new Button("Load Game")
 
   // Label for some info messages
   val messages = new Label("") 

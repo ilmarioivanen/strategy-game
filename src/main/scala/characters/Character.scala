@@ -15,6 +15,7 @@ class Character(
   val baseSpeed: Int
 
 ) {
+  
 
   // "Character sprite", just a shape for now
   val currentSprite = new Rectangle {
@@ -68,10 +69,22 @@ class Character(
   def takeDamage(dmg: Int) =
     hp -= dmg
 
+  // Methods for setting stats (made for fileManager)
+  def setHp(s: Int) =
+    hp = s
+  def setMp(s: Int) =
+    mp = s
+  def setAtk(s: Int) =
+    atkDmg = s
+  def setMgc(s: Int) =
+    mgcDmg = s
+  def setSpeed(s: Int) =
+    speed = s
 
   // Skills and their names
   // These are the base skills that have to be overridden
   def skills: Array[Skill] = Array(new Slash, new Slash, new Slash, new Slash)
+  
 
   val s1 = skills(0)
   val s2 = skills(1)

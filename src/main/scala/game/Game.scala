@@ -11,7 +11,10 @@ import scala.util.Random.*
 
 class Game {
 
-  // Gamestate and players
+  // File manager
+  val fileManager = new FileManager
+
+  // Variables for game state etc.
   private var gameOver = false
   private var gameStarted = false
   private var userLost = false
@@ -24,34 +27,48 @@ class Game {
   val skillsInBattle = Buffer[(Skill, Character, Character)]()
   val stageEffects = Buffer[(Node, String)]()
 
-
-  // These needed to be methods to update properly
+  // Methods for game state etc.
   def selectStage(stage: Stage) =
     currentStage = Some(stage)
   def stage = currentStage
+  def stageName =
+    currentStage match
+      case Some(stage) => stage.name
+      case None => "None"
   def userParty = currentUser.party
   def aiParty = currentEnemy.party
+  def getSkills = skillsInBattle
+  def getEffects = stageEffects
   def bothParties = userParty ++ aiParty
   def partySize = bothParties.size
   // Sort parties by speed
   def bySpeed = bothParties.sortBy(_.currentSpeed).reverse // fastest first
+  def turn = turnCount
   def characterTurn =
     require(partySize > 0, "Party size cannot be negative!")
     bySpeed(turnCount % partySize)
 
   def isStarted = gameStarted
   def isOver = gameOver
-  def winner: String =
+  def userWinner = userWon
+  def winnerText: String =
     if userWon then 
       "You won!"
     else
       "You lost!"
+
+  def setTurn(turn: Int) =
+    turnCount = turn
   def endGame() =
     gameStarted = false
   def startGame() = 
     gameStarted = true
- 
-  
+  def userWin() =
+    userWon = true
+
+
+  // Update methods
+
   def updateParties() = 
     val userDead = userParty.filter( c => c.isDead )
     val aiDead = aiParty.filter( c => c.isDead )
