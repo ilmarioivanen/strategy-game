@@ -95,10 +95,18 @@ class Character(
   val s3 = skills(2)
   val s4 = skills(3)
 
-  val skill1Name = s"${s1.name}\n${s1.mpCost} Mp"
-  val skill2Name = s"${s2.name}\n${s2.mpCost} Mp"
-  val skill3Name = s"${s3.name}\n${s3.mpCost} Mp"
-  val skill4Name = s"${s4.name}\n${s4.mpCost} Mp"
+  // Method for telling the player if skill is attack or buff
+  def skillType(skill: Skill): String =
+    if skill.attack then
+      "#A"
+    else
+      "#B"
+
+
+  val skill1Name = s"${s1.name}\n${s1.mpCost} Mp  ${skillType(s1)}"
+  val skill2Name = s"${s2.name}\n${s2.mpCost} Mp  ${skillType(s2)}"
+  val skill3Name = s"${s3.name}\n${s3.mpCost} Mp  ${skillType(s3)}"
+  val skill4Name = s"${s4.name}\n${s4.mpCost} Mp  ${skillType(s4)}"
 
   def skill1(target: Character): (Skill, Character, Character) =
     s1.effect(this, target)
