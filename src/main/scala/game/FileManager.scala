@@ -4,6 +4,7 @@ import players.*
 import stages.*
 import characters.*
 import skills.*
+import java.io.{FileNotFoundException, IOException}
 import scala.collection.mutable.Buffer
 import scala.util.{Failure, Success}
 import scala.xml.*
@@ -54,7 +55,9 @@ class FileManager {
       XML.save("src/main/savefiles/"+fileName+".xml", gameFile)
 
     catch
-      case _ => throw new FileManagerException("Saving the game failed")
+      case _: FileNotFoundException => throw FileManagerException("Error with saving game data: Save file not found")
+      case _: IOException => throw new FileManagerException("Error with saving game data: IOException")
+      case _: Throwable => throw new FileManagerException("Error with saving game data: Unexpected exception.")
 
 
   // Helper methods etc. for the load method
@@ -93,82 +96,87 @@ class FileManager {
           case _ => Failure(new FileManagerException("Reading character data failed"))
   }
 
-
   // Method for reading the save five and loading the game
   def loadGame(fileName: String, game: Game) =
 
-    val saveFile = XML.loadFile("src/main/savefiles/"+fileName+".xml")
-
-    // Buffers for characters
-    val userCharacters = Buffer[Character]()
-    val enemyCharacters = Buffer[Character]()
-
-    // Read stage
-    val stageName = (saveFile \ "stage" \ "@name").text
-    readStage(stageName) match
-      case Success(stage) => game.selectStage(stage)
-      case Failure(exception) => throw exception
-
-    // Read game state
     try
-      val started = (saveFile \ "gamestate" \ "started").text.toBoolean
-      if started then game.startGame()
 
-      val over = (saveFile \ "gamestate" \ "over").text.toBoolean
-      if over then game.endGame()
+      val saveFile = XML.loadFile("src/main/savefiles/"+fileName+".xml")
 
-      val userWon = (saveFile \ "gamestate" \ "userWon").text.toBoolean
-      if userWon then game.userWin()
+      // Buffers for characters
+      val userCharacters = Buffer[Character]()
+      val enemyCharacters = Buffer[Character]()
 
-      val turn = (saveFile \ "gamestate" \ "turn").text.toInt
-      game.setTurn(turn)
+      // Read stage
+      val stageName = (saveFile \ "stage" \ "@name").text
+      readStage(stageName) match
+        case Success(stage) => game.selectStage(stage)
+        case Failure(exception) => throw exception
+
+      // Read game state
+      try
+        val started = (saveFile \ "gamestate" \ "started").text.toBoolean
+        if started then game.startGame()
+
+        val over = (saveFile \ "gamestate" \ "over").text.toBoolean
+        if over then game.endGame()
+
+        val userWon = (saveFile \ "gamestate" \ "userWon").text.toBoolean
+        if userWon then game.userWin()
+
+        val turn = (saveFile \ "gamestate" \ "turn").text.toInt
+        game.setTurn(turn)
+
+      catch
+          case _ => throw new FileManagerException("Loading game state data failed")
+
+      // Read the players and their characters
+      // players have no attributes themselves
+      try
+        // Characters
+        val userParty = (saveFile \ "players" \ "user" \ "character").foreach { character =>
+          val name = (character \ "@name").text
+          val hp = (character \ "@hp").text
+          val mp = (character \ "@mp").text
+          val atk = (character \ "@atk").text
+          val mgc = (character \ "@mgc").text
+          val speed = (character \ "@speed").text
+          readChar(name, hp, mp, atk, mgc, speed) match
+            case Success(character) => userCharacters += character
+            case Failure(exception) => throw exception
+        }
+        // Fair amount of repetetion, not optimal
+        val enemyParty = (saveFile \ "players" \ "enemy" \ "character").foreach { character =>
+          val name = (character \ "@name").text
+          val hp = (character \ "@hp").text
+          val mp = (character \ "@mp").text
+          val atk = (character \ "@atk").text
+          val mgc = (character \ "@mgc").text
+          val speed = (character \ "@speed").text
+          readChar(name, hp, mp, atk, mgc, speed) match
+            case Success(character) => enemyCharacters += character
+            case Failure(exception) => throw exception
+        }
+        // Clear the old data and set the new one
+        // Stage was already set before ...
+        // which might mean that the stage loads but characters don't in some error situations
+        game.userParty.clear()
+        game.aiParty.clear()
+        // Clearing these skill/effect buffers is not optimal since it might affect the gameplay
+        // Ideally I would've saved these to the save file but reading these was a pain since they
+        // contain tuples of characters and skills
+        game.skillsInBattle.clear()
+        game.stageEffects.clear()
+        userCharacters.foreach( c => game.currentUser.addToParty(c))
+        enemyCharacters.foreach( c => game.currentEnemy.addToParty(c))
+
+      catch
+        case _ => throw new FileManagerException("Loading player data failed")
 
     catch
-        case _ => throw new FileManagerException("Loading game state data failed")
-
-    // Read the players and their characters
-    // players have no attributes themselves
-    try
-      // Characters
-      val userParty = (saveFile \ "players" \ "user" \ "character").foreach { character =>
-        val name = (character \ "@name").text
-        val hp = (character \ "@hp").text
-        val mp = (character \ "@mp").text
-        val atk = (character \ "@atk").text
-        val mgc = (character \ "@mgc").text
-        val speed = (character \ "@speed").text
-        readChar(name, hp, mp, atk, mgc, speed) match
-          case Success(character) => userCharacters += character
-          case Failure(exception) => throw exception
-      }
-      // Fair amount of repetetion, not optimal
-      val enemyParty = (saveFile \ "players" \ "enemy" \ "character").foreach { character =>
-        val name = (character \ "@name").text
-        val hp = (character \ "@hp").text
-        val mp = (character \ "@mp").text
-        val atk = (character \ "@atk").text
-        val mgc = (character \ "@mgc").text
-        val speed = (character \ "@speed").text
-        readChar(name, hp, mp, atk, mgc, speed) match
-          case Success(character) => enemyCharacters += character
-          case Failure(exception) => throw exception
-      }
-      // Clear the old data and set the new one
-      // Stage was already set before ...
-      // which might mean that the stage loads but characters don't in some error situations
-      game.userParty.clear()
-      game.aiParty.clear()
-      // Clearing these skill/effect buffers is not optimal since it might affect the gameplay
-      // Ideally I would've saved these to the save file but reading these was a pain since they
-      // contain tuples of characters and skills
-      game.skillsInBattle.clear()
-      game.stageEffects.clear()
-      userCharacters.foreach( c => game.currentUser.addToParty(c))
-      enemyCharacters.foreach( c => game.currentEnemy.addToParty(c))
-
-    catch
-      case _ => throw new FileManagerException("Loading player data failed")
-
+      case _: FileNotFoundException => throw FileManagerException("Error with loading game data: Save file not found")
+      case _: IOException => throw new FileManagerException("Error with loading game data: IOException")
+      case _: Throwable => throw new FileManagerException("Error with loading game data: Unexpected exception.")
 }
 
 // Custom exception class
