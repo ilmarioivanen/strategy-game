@@ -103,17 +103,18 @@ class FileManager {
 
       val saveFile = XML.loadFile("src/main/savefiles/"+fileName+".xml")
 
-      // Buffers for characters
+      // Variables for stage, characters
+      var gameStage = stages.head
       val userCharacters = Buffer[Character]()
       val enemyCharacters = Buffer[Character]()
 
       // Read stage
       val stageName = (saveFile \ "stage" \ "@name").text
       readStage(stageName) match
-        case Success(stage) => game.selectStage(stage)
+        case Success(stage) => gameStage = stage
         case Failure(exception) => throw exception
 
-      // Read game state
+      // Read and set up the game state
       try
         val started = (saveFile \ "gamestate" \ "started").text.toBoolean
         if started then game.startGame()
@@ -158,15 +159,11 @@ class FileManager {
             case Failure(exception) => throw exception
         }
         // Clear the old data and set the new one
-        // Stage was already set before ...
-        // which might mean that the stage loads but characters don't in some error situations
-        game.userParty.clear()
-        game.aiParty.clear()
-        // Clearing these skill/effect buffers is not optimal since it might affect the gameplay
+        game.reset()
+        // Clearing skill/effect buffers with reset() is not optimal since it might affect the gameplay
         // Ideally I would've saved these to the save file but reading these was a pain since they
         // contain tuples of characters and skills
-        game.skillsInBattle.clear()
-        game.stageEffects.clear()
+        game.selectStage(gameStage)
         userCharacters.foreach( c => game.currentUser.addToParty(c))
         enemyCharacters.foreach( c => game.currentEnemy.addToParty(c))
 
@@ -176,7 +173,7 @@ class FileManager {
     catch
       case _: FileNotFoundException => throw FileManagerException("Error with loading game data: Save file not found")
       case _: IOException => throw new FileManagerException("Error with loading game data: IOException")
-      case _: Throwable => throw new FileManagerException("Error with loading game data: Unexpected exception.")
+
 }
 
 // Custom exception class

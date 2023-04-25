@@ -60,6 +60,7 @@ class Game {
   def setTurn(turn: Int) =
     turnCount = turn
   def endGame() =
+    turnCount = 0
     gameStarted = false
   def startGame() = 
     gameStarted = true
@@ -68,6 +69,13 @@ class Game {
 
 
   // Update methods
+
+  def reset() =
+    currentStage = None
+    userParty.clear()
+    aiParty.clear()
+    skillsInBattle.clear()
+    stageEffects.clear()
 
   def updateParties() = 
     val userDead = userParty.filter( c => c.isDead )
@@ -95,8 +103,8 @@ class Game {
     userLost = userParty.forall(_.isDead)
     userWon = aiParty.forall(_.isDead) && !userLost
     gameOver = userLost || userWon
-    updateParties()
     stageEffect()
+    updateParties()
     if !gameOver then
       turnCount += 1
       // Update game state again if AI's turn and make the user wait

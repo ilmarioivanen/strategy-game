@@ -6,7 +6,7 @@ import scalafx.scene.shape.Rectangle
 
 class Explosion extends Skill(
   
-  name = "Exlposion",
+  name = "Explosion",
   attack = true,
   heals = false,
   negative = true,

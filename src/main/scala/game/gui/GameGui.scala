@@ -29,13 +29,14 @@ class GameGui(game: Game) extends Scene {
   val gui = this
   val user = game.currentUser
   val enemy = game.currentEnemy
-  val userParty = game.userParty
-  val enemyParty = game.aiParty
   val characterNodes = Buffer[Node]()
   private var lastTargetNode: Node = new Rectangle // Some random rectangle as initial value
 
-  def bothParties = game.bothParties // This needed to be a method to function properly
-
+  // These needed to be a method to function properly
+  // Parties can change during gameplay and outside of gameplay if new game is started or old save file loaded
+  def userParty = game.userParty
+  def enemyParty = game.aiParty
+  def bothParties = game.bothParties
 
   // Set up the base gameview
   val gameView = new GameView
@@ -47,13 +48,17 @@ class GameGui(game: Game) extends Scene {
     continue.onAction = (event) =>
       if game.isStarted then
         openView(gameView)
+        // Gui needs to be updated
+        updateGui()
+        this.messages.text = ""
       else
-        this.messages.text = "There's no game to continue. Please start a new game."
+        this.messages.text = "There's no game to continue. Please start a new game or load a save."
 
     newGame.onAction = (event) =>
+      // End the previous game and reset the game state and nodes
+      game.endGame()
+      game.reset()
       openView(stageSelect)
-      user.party.clear()
-      enemyParty.clear()
       this.messages.text = ""
 
     saveGame.onAction = (event) =>
@@ -65,11 +70,9 @@ class GameGui(game: Game) extends Scene {
     loadGame.onAction = (event) =>
       try
         game.fileManager.loadGame("save1", game)
-        // Gui needs to be updated
-        InputManager.handleInput(gui)
-        updateGui()
       catch
         case e: Throwable => errorAlert("Loading the game failed.", e)
+
   }
 
   // Set up the stage select screen
@@ -81,8 +84,11 @@ class GameGui(game: Game) extends Scene {
         this.part2.text = stage._1.name
     this.next.onAction = (event) =>
       game.stage match
-        case Some(stage) => openView(characterSelect)
-        case None => this.messages.text = "Please select a stage before continuing."
+        case Some(stage) =>
+          openView(characterSelect)
+          this.part2.text = ""
+        case None =>
+          this.messages.text = "Please select a stage before continuing."
   }
 
   // Set up the character select screen
@@ -113,7 +119,6 @@ class GameGui(game: Game) extends Scene {
         // Start the game
         openView(gameView)
         game.startGame()
-        InputManager.handleInput(gui)
         // Add characters to enemy party so party sizes match
         for n <- userParty.indices do
           val enemyChar = shuffle(content.allCharacters).head
@@ -126,7 +131,6 @@ class GameGui(game: Game) extends Scene {
           update()
         else
           updateGui()
-
   }
 
   // Set up buttons
@@ -204,14 +208,15 @@ class GameGui(game: Game) extends Scene {
                            radius = 20
                            spread = 0.5
     }
-    val nodeInTurn = characterMap.map((n, c) => (c, n))
-      .toMap
-      .get(game.characterTurn)
-    nodeInTurn match
-      case Some(node) =>
-        node.effect = turnEffect
-      case None =>
-        println("Someone should be in turn.") // should maybe throw an error
+    // Only create effect if possible
+    if bothParties.nonEmpty then
+      val nodeInTurn = characterMap.map((n, c) => (c, n))
+        .toMap
+        .get(game.characterTurn)
+      nodeInTurn match
+        case Some(node) =>
+          node.effect = turnEffect
+        case None => // This can happen when every node disappears at the same time
 
   def targeted(targetNode: Node) =
     // reset old target effects
@@ -270,11 +275,13 @@ class GameGui(game: Game) extends Scene {
     setTextInfo()
 
   def updateButtons() =
-    val cTurn = game.characterTurn
-    skill1Button.text = cTurn.skill1Name
-    skill2Button.text = cTurn.skill2Name
-    skill3Button.text = cTurn.skill3Name
-    skill4Button.text = cTurn.skill4Name
+    // Only update buttons if possible
+    if bothParties.nonEmpty then
+      val cTurn = game.characterTurn
+      skill1Button.text = cTurn.skill1Name
+      skill2Button.text = cTurn.skill2Name
+      skill3Button.text = cTurn.skill3Name
+      skill4Button.text = cTurn.skill4Name
 
 
   // skillInfo and updateSkills() are last minute solution that shows text descriptions of skills
@@ -287,9 +294,11 @@ class GameGui(game: Game) extends Scene {
 
   def updateSkills() =
     var allInfo = ""
+    // Stage effects
     for effect <- game.stageEffects do
       val description = effect._2
       allInfo += description + "\n"
+    // Skills
     for skill <- game.skillsInBattle do
       val skillName = skill._1.name
       val user = skill._2.name
@@ -318,11 +327,12 @@ class GameGui(game: Game) extends Scene {
     else
       targeted(lastTargetNode)
 
-
   // Method to swap roots
   def openView(view: Parent) =
     this.root = view
 
-  //
+  // Initially set root to gameMenu and call the handleInput method for gui
   this.root = gameMenu
+  InputManager.handleInput(gui)
+
 }

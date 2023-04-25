@@ -1,0 +1,22 @@
+<game>
+          <stage name="Battleground"></stage>
+          <gamestate>
+            <started>true</started>
+            <over>false</over>
+            <userWon>false</userWon>
+            <turn>17</turn>
+          </gamestate>
+          <players>
+            <user>
+              <character name="Bob" hp="44" mp="70" atk="80" mgc="80" speed="-50">
+              </character><character name="Bob" hp="80" mp="90" atk="80" mgc="80" speed="90">
+              </character>
+            </user>
+            <enemy>
+              <character name="Wizard" hp="59" mp="40" atk="50" mgc="150" speed="75">
+              </character><character name="Ranger" hp="120" mp="50" atk="120" mgc="50" speed="100">
+              </character><character name="Ranger" hp="120" mp="50" atk="120" mgc="50" speed="100">
+              </character>
+            </enemy>
+          </players>
+        </game>

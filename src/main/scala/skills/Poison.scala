@@ -31,5 +31,4 @@ class Poison extends Skill(
       target.takeDamage(missingHp)
     user.endTurn()
     (this, user, target)
-
 }

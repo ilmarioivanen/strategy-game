@@ -24,11 +24,12 @@ object InputManager {
 
     scene.onMouseClicked = event =>
       val charMap = scene.characterMap
-      val default = shuffle(charMap).head // The default option is a random character in play
-      val node = event.getPickResult.getIntersectedNode
-      val someTarget = charMap.find(_._1 == node)
-      val targetNode = someTarget.getOrElse(default)._1
-      val targetCharacter = someTarget.getOrElse(default)._2
-      lastTargetOption = Some(targetCharacter)
-      scene.targeted(targetNode)
+      if charMap.nonEmpty then
+        val default = shuffle(charMap).head // The default option is a random character in play
+        val node = event.getPickResult.getIntersectedNode
+        val someTarget = charMap.find(_._1 == node)
+        val targetNode = someTarget.getOrElse(default)._1
+        val targetCharacter = someTarget.getOrElse(default)._2
+        lastTargetOption = Some(targetCharacter)
+        scene.targeted(targetNode)
 }
