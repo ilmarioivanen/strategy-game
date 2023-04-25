@@ -14,7 +14,11 @@ class Volcano extends Stage("Volcano") {
   // Volcano erupts
   def effect(target: Character) =
 
+    // Since this just casts the skill on target by target,
+    // the target's turn is used and the target also needs the mana for casting
     val eruption = new Explosion
+    val mana = eruption.mpCost
+    target.changeMp(mana)
     eruption.effect(target, target)
 
     // Placeholder visual

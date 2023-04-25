@@ -13,7 +13,7 @@ import scala.xml.*
 class FileManager {
 
 
-  def saveGame(fileName: String, game: Game) =
+  def saveGame(filePath: String, game: Game) =
 
 
     try
@@ -34,7 +34,7 @@ class FileManager {
                            mp = {character.currentMp.toString}
                            atk = {character.currentAtk.toString}
                            mgc = {character.currentMgc.toString}
-                           speed = {character.currentSpeed.toString} 
+                           speed = {character.currentSpeed.toString}
                            usedTurn = {character.usedTurn.toString}>
               </character>
             }
@@ -54,7 +54,7 @@ class FileManager {
           </players>
         </game>
 
-      XML.save("src/main/savefiles/"+fileName+".xml", gameFile)
+      XML.save(filePath, gameFile)
 
     catch
       case _: FileNotFoundException => throw FileManagerException("Error with saving game data: Save file not found")
@@ -101,11 +101,11 @@ class FileManager {
   }
 
   // Method for reading the save five and loading the game
-  def loadGame(fileName: String, game: Game) =
+  def loadGame(filePath: String, game: Game) =
 
     try
 
-      val saveFile = XML.loadFile("src/main/savefiles/"+fileName+".xml")
+      val saveFile = XML.loadFile(filePath)
 
       // Variables for stage, characters
       var gameStage = stages.head

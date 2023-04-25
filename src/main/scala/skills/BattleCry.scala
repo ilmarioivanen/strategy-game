@@ -6,7 +6,7 @@ import scalafx.scene.shape.Rectangle
 
 class BattleCry extends Skill(
   
-  name = "Battle Cry",
+  name = "BattleCry",
   attack = false,
   heals = false, // Techically doesn't heal since this changes hp regardless of base hp
   negative = false,

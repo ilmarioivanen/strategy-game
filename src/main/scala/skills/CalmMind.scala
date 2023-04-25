@@ -6,7 +6,7 @@ import scalafx.scene.shape.Rectangle
 
 class CalmMind extends Skill(
   
-  name = "Calm Mind",
+  name = "CalmMind",
   attack = false,
   heals = false,
   negative = false,

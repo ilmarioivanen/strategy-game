@@ -7,7 +7,7 @@ import scala.util.Random
 
 class CaffeineOverdose extends Skill(
 
-  name = "Caffeine Od.",
+  name = "CaffeineOd.",
   attack = false,
   heals = false,
   negative = true,

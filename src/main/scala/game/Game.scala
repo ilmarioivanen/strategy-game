@@ -97,7 +97,7 @@ class Game {
       case Some(stage) =>
         stageEffects.clear()
         // effect happens randomly
-        val chance = 50
+        val chance = 10
         val random = Random(System.nanoTime())
         val rNum = random.nextInt(100)
         if rNum <= chance then

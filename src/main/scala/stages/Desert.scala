@@ -13,8 +13,12 @@ class Desert extends Stage("Desert") {
   
   // Desert slows and deals damage
   def effect(target: Character) =
-    
+
+    // Since this just casts the skill on target by target,
+    // the target's turn is used and the target also needs the mana for casting
     val slow = new Cripple
+    val mana = slow.mpCost
+    target.changeMp(mana)
     slow.effect(target, target)
 
     // Placeholder visual

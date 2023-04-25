@@ -24,7 +24,7 @@ class CharacterSelect extends VBox {
 
   // Call the allCharacters method three times and make three sets
   // This way the player can choose three same characters and they are not the same objects
-  private val characters =
+  def characters =
     val set1 = content.allCharacters
     val set2 = content.allCharacters
     val set3 = content.allCharacters

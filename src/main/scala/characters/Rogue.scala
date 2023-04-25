@@ -7,9 +7,9 @@ import skills.*
 class Rogue extends Character(
 
   name = "Rogue",
-  baseHp = 75,
+  baseHp = 80,
   baseMp = 50,
-  baseAtkDmg = 120,
+  baseAtkDmg = 150,
   baseMgcDmg = 50,
   baseSpeed = 120
   

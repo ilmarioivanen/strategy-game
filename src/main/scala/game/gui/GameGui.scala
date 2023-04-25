@@ -63,13 +63,13 @@ class GameGui(game: Game) extends Scene {
 
     saveGame.onAction = (event) =>
       try
-        game.fileManager.saveGame("save1", game)
+        game.fileManager.saveGame("src/main/savefiles/save1.xml", game)
       catch
         case e: Throwable => errorAlert("Saving the game failed.", e)
 
     loadGame.onAction = (event) =>
       try
-        game.fileManager.loadGame("save1", game)
+        game.fileManager.loadGame("src/main/savefiles/save1.xml", game)
       catch
         case e: Throwable => errorAlert("Loading the game failed.", e)
 
@@ -92,7 +92,9 @@ class GameGui(game: Game) extends Scene {
   }
 
   // Set up the character select screen
-  val characterSelect = new CharacterSelect {
+  // This was changed to method to avoid calling identical or old character objects,
+  // which happened if the old characterSelect was used after eg. winning a game
+  def characterSelect = new CharacterSelect {
 
     for character <- this.charToButtons do
       character._2.onAction = (event) =>
@@ -126,7 +128,7 @@ class GameGui(game: Game) extends Scene {
         // Check if the AI is first in turn
         // if yes then the enemy takes the first turn and then update everything
         // else update only the gui for the user
-        if enemyParty.contains(game.bySpeed.head) then
+        if enemyParty.contains(game.characterTurn) then
           enemy.takeTurn()
           update()
         else

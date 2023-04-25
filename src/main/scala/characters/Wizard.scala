@@ -7,7 +7,7 @@ import skills.*
 class Wizard extends Character(
 
   name = "Wizard",
-  baseHp = 75,
+  baseHp = 80,
   baseMp = 150,
   baseAtkDmg = 50,
   baseMgcDmg = 150,
