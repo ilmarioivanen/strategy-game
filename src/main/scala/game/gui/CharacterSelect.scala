@@ -1,21 +1,33 @@
 package game.gui
 
+import game.Content
 import characters.*
 import scalafx.Includes.*
 import scalafx.scene.control.{Button, Label}
-import scalafx.scene.layout.{HBox, VBox}
+import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, HBox, VBox}
 import scala.collection.mutable.Buffer
+import scalafx.geometry.Pos.*
+import scalafx.geometry.Insets
+import scalafx.scene.paint.Color.LightBlue
+
 
 class CharacterSelect extends VBox {
 
-  def setOfCharacters = Array(new Bob, new Gigachu, new Ranger, new Rogue, new Warrior, new Wizard)
+  val content = new Content
+
+  val menuBackground = Background(Array(new BackgroundFill((LightBlue), CornerRadii.Empty, Insets(10))))
+  background = menuBackground
+  alignment = TopLeft
+  padding = Insets(10)
 
   private val characterButtons = Buffer[Button]()
 
+  // Call the allCharacters method three times and make three sets
+  // This way the player can choose three same characters and they are not the same objects
   private val characters =
-    val set1 = setOfCharacters
-    val set2 = setOfCharacters
-    val set3 = setOfCharacters
+    val set1 = content.allCharacters
+    val set2 = content.allCharacters
+    val set3 = content.allCharacters
     set1.zip(set2).zip(set3).map(c => (c._1._1, c._1._2, c._2))
 
   for character <- characters do
@@ -37,6 +49,7 @@ class CharacterSelect extends VBox {
   val selected = new HBox {
     children = Array(part1, part2)
   }
-  
-  this.children = characterButtons ++ Array(clear, startGame, messages, selected)
+  characterButtons.foreach(_.setMinSize(60, 30))
+
+  children = characterButtons ++ Array(clear, startGame, messages, selected)
 }

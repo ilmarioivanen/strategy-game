@@ -4,11 +4,12 @@ import stages.*
 import characters.*
 import skills.*
 
-// Last minute solution for loading a game file
+// Last minute solution for helping loading a game file
+// Also used in character select
 // Tried to find a way to get all subclasses etc. since that would have helped a lot
 class Content {
 
-  val stages = Array(
+  val allStages = Array(
     new Battleground,
     new Volcano,
     new Desert
@@ -17,7 +18,7 @@ class Content {
   // Characters and skills need to be methods since
   // the objects must be different every time the array is called
 
-  def characters = Array(
+  def allCharacters = Array(
     new Bob,
     new Gigachu,
     new Ranger,
@@ -26,7 +27,7 @@ class Content {
     new Wizard
   )
 
-  def skills = Array(
+  def allSkills = Array(
     new Barrage,
     new BattleCry,
     new CaffeineOverdose,

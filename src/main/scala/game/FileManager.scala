@@ -59,9 +59,9 @@ class FileManager {
 
   // Helper methods etc. for the load method
   val content = new Content
-  val stages = content.stages
-  def characters = content.characters
-  def skills = content.skills
+  val stages = content.allStages
+  def characters = content.allCharacters
+  def skills = content.allSkills
   // skills method was not used but it could be used to change characters' skills by editing the save files
 
   private def readStage(stageName: String) =

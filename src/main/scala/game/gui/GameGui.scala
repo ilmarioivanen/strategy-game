@@ -52,6 +52,8 @@ class GameGui(game: Game) extends Scene {
 
     newGame.onAction = (event) =>
       openView(stageSelect)
+      user.party.clear()
+      enemyParty.clear()
       this.messages.text = ""
 
     saveGame.onAction = (event) =>
@@ -107,13 +109,14 @@ class GameGui(game: Game) extends Scene {
       if game.userParty.isEmpty then
         this.messages.text = "Please add at least one character to your party."
       else
+        this.part2.text = ""
         // Start the game
         openView(gameView)
         game.startGame()
         InputManager.handleInput(gui)
         // Add characters to enemy party so party sizes match
         for n <- userParty.indices do
-          val enemyChar = shuffle(setOfCharacters).head
+          val enemyChar = shuffle(content.allCharacters).head
           enemy.addToParty(enemyChar)
         // Check if the AI is first in turn
         // if yes then the enemy takes the first turn and then update everything
@@ -124,8 +127,6 @@ class GameGui(game: Game) extends Scene {
         else
           updateGui()
 
-    // Clear the party initially
-    clear.onAction
   }
 
   // Set up buttons
