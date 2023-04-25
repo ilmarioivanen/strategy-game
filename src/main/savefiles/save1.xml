@@ -1,0 +1,17 @@
+<game>
+          <stage name="None"></stage>
+          <gamestate>
+            <started>false</started>
+            <over>false</over>
+            <userWon>false</userWon>
+            <turn>0</turn>
+          </gamestate>
+          <players>
+            <user>
+              
+            </user>
+            <enemy>
+              
+            </enemy>
+          </players>
+        </game>
