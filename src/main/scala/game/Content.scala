@@ -5,7 +5,7 @@ import characters.*
 import skills.*
 
 // Last minute solution for helping loading a game file
-// Also used in character select
+// Also used in character and stage select screens
 // Tried to find a way to get all subclasses etc. since that would have helped a lot
 class Content {
 

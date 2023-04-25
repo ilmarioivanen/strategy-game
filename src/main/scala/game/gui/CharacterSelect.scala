@@ -13,23 +13,27 @@ import scalafx.scene.paint.Color.LightBlue
 
 class CharacterSelect extends VBox {
 
-  val content = new Content
-
   val menuBackground = Background(Array(new BackgroundFill((LightBlue), CornerRadii.Empty, Insets(10))))
   background = menuBackground
   alignment = TopLeft
   padding = Insets(10)
+  
+  // Get all possible content
+  // Only characters are relevant for this class
+  val content = new Content
 
+  // Set up buffer for buttons
   private val characterButtons = Buffer[Button]()
 
   // Call the allCharacters method three times and make three sets
-  // This way the player can choose three same characters and they are not the same objects
+  // This way the player can choose three same characters and they are different instances of the character class
   def characters =
     val set1 = content.allCharacters
     val set2 = content.allCharacters
     val set3 = content.allCharacters
     set1.zip(set2).zip(set3).map(c => (c._1._1, c._1._2, c._2))
 
+  // Add button for each character
   for character <- characters do
     val characterButton = new Button(character._1.name)
     characterButtons += characterButton

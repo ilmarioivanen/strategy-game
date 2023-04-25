@@ -5,6 +5,7 @@ import scala.util.Random.shuffle
 import characters._
 import game.Game
 
+// Class for the enemy AI
 class EnemyAI(game: Game) extends Player {
   
   private val aiParty = Buffer[Character]()
@@ -65,9 +66,9 @@ class EnemyAI(game: Game) extends Player {
       case aiChar.s2.name => game.skillsInBattle += aiChar.skill2(target)
       case aiChar.s3.name => game.skillsInBattle += aiChar.skill3(target)
       case aiChar.s4.name => game.skillsInBattle += aiChar.skill4(target)
-      case _ => println("Ai chose a skill that didn't exist.")
+      case _ => new Exception("AI tried to choose a skill that doesn't exist")
 
-    
+  // Other methods
   def party = aiParty
   def addToParty(character: Character) =
     if aiParty.size < 3 then

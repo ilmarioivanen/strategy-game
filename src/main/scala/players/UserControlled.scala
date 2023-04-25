@@ -11,10 +11,10 @@ class UserControlled(game: Game) extends Player {
   
   private val userParty = Buffer[Character]()
 
-  // This method is useless as of now but could be used if I implemented things differently
+  // The user's takeTurn() method is useless as of now but could be used if I implemented things differently
   // This is never called
   def takeTurn() =
-    Thread.sleep(5)
+    Thread.sleep(500)
     
   def party = userParty
   def addToParty(character: Character) =

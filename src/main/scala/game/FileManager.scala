@@ -9,12 +9,11 @@ import scala.collection.mutable.Buffer
 import scala.util.{Failure, Success}
 import scala.xml.*
 
-
+// Class to save and load game files
 class FileManager {
 
-
+  // Method for saving a file
   def saveGame(filePath: String, game: Game) =
-
 
     try
       val gameFile =
@@ -56,13 +55,14 @@ class FileManager {
 
       XML.save(filePath, gameFile)
 
+    // Handle possible exceptions  
     catch
       case _: FileNotFoundException => throw FileManagerException("Error with saving game data: Save file not found")
       case _: IOException => throw new FileManagerException("Error with saving game data: IOException")
       case _: Throwable => throw new FileManagerException("Error with saving game data: Unexpected exception.")
 
 
-  // Helper methods etc. for the load method
+  // Helper variables and methods for the loadFile method
   val content = new Content
   val stages = content.allStages
   def characters = content.allCharacters
@@ -81,14 +81,14 @@ class FileManager {
                        charAtk: String,
                        charMgc: String,
                        charSpeed: String,
-                       usedTurn: String) = { // Brackets for clarity
+                       usedTurn: String) = { // This looks hideous
 
     val char = characters.find(_.name == charName)
     char match
       case None => Failure(new FileManagerException("Reading character data failed"))
       case Some(c) =>
         try
-          // Set proper stats
+          // Set proper stats and return the character
           c.setHp(charHp.toInt)
           c.setMp(charMp.toInt)
           c.setAtk(charAtk.toInt)
@@ -104,7 +104,6 @@ class FileManager {
   def loadGame(filePath: String, game: Game) =
 
     try
-
       val saveFile = XML.loadFile(filePath)
 
       // Variables for stage, characters
@@ -136,7 +135,7 @@ class FileManager {
           case _ => throw new FileManagerException("Loading game state data failed")
 
       // Read the players and their characters
-      // players have no attributes themselves
+      // Players have no attributes themselves written to the save file
       try
         // Characters
         val userParty = (saveFile \ "players" \ "user" \ "character").foreach { character =>
@@ -164,11 +163,11 @@ class FileManager {
             case Success(character) => enemyCharacters += character
             case Failure(exception) => throw exception
         }
-        // Clear the old data and set the new one
+        // Clear the remaining old data and set the new one
         game.reset()
-        // Clearing skill/effect buffers with reset() is not optimal since it might affect the gameplay
+        // Clearing skill/effect buffers with reset() is not optimal since it loses gui elements
         // Ideally I would've saved these to the save file but reading these was a pain since they
-        // contain tuples of characters and skills
+        // contain tuples of characters, skills and scalafx nodes
         game.selectStage(gameStage)
         userCharacters.foreach( c => game.currentUser.addToParty(c))
         enemyCharacters.foreach( c => game.currentEnemy.addToParty(c))

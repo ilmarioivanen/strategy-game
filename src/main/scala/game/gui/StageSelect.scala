@@ -4,7 +4,7 @@ import scalafx.Includes.*
 import scalafx.scene.control.{Button, Label}
 import scalafx.scene.layout.{Background, BackgroundFill, CornerRadii, HBox, VBox}
 import stages.*
-
+import game.Content
 import scala.collection.mutable.Buffer
 import scalafx.geometry.Pos.*
 import scalafx.geometry.Insets
@@ -18,7 +18,10 @@ class StageSelect extends VBox {
   alignment = TopLeft
   padding = Insets(10)
 
-  private val stages = Array(new Battleground, new Volcano, new Desert)
+  // Get all possible content
+  // Only stages are relevant for this class
+  val content = new Content
+  val stages = content.allStages
 
   // Buffer for buttons for choosing the stage
   private val stageButtons = Buffer[Button]()

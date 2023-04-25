@@ -6,6 +6,7 @@ import skills.*
 
 class Ranger extends Character(
 
+  // Ranger is a balanced physical fighter
   name = "Ranger",
   baseHp = 120,
   baseMp = 50,

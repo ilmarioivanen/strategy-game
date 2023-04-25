@@ -14,7 +14,7 @@ class Game {
   // File manager
   val fileManager = new FileManager
 
-  // Variables for game state etc.
+  // Game state variables
   private var gameOver = false
   private var gameStarted = false
   private var userLost = false
@@ -27,7 +27,7 @@ class Game {
   val skillsInBattle = Buffer[(Skill, Character, Character)]()
   val stageEffects = Buffer[(Node, String)]()
 
-  // Methods for game state etc.
+  // Game state methods
   def selectStage(stage: Stage) =
     currentStage = Some(stage)
   def stage = currentStage
@@ -41,31 +41,30 @@ class Game {
   def getEffects = stageEffects
   def bothParties = userParty ++ aiParty
   def partySize = bothParties.size
-  // Sort parties by speed
-  def bySpeed = bothParties.sortBy(_.currentSpeed).reverse // fastest first
   def turn = turnCount
+  // Sort parties by speed to get turn order
+  def bySpeed = bothParties.sortBy(_.currentSpeed).reverse // fastest first
+  
+  // Method for getting the character who's in turn
   def characterTurn =
     // Get all of the characters that haven't used their turn
-    // Get the first (fastest) if there is one
-    // ... otherwise reset turns
-    // Ending turns is done by using skills
-    // This way some skill can be casted multiple times
     val notDone = bySpeed.filterNot(_.usedTurn)
+    // Get the first (fastest) if there is one
     if notDone.nonEmpty then
       notDone.head
     else
+    // ... otherwise reset turns
       bothParties.foreach(_.resetTurn())
       bySpeed.head
+    // Ending turns is done outside of this method
+    // This way some skill can be casted multiple times
 
+  // More game state methods
   def isStarted = gameStarted
   def isOver = gameOver
   def userWinner = userWon
   def winnerText: String =
-    if userWon then 
-      "You won!"
-    else
-      "You lost!"
-
+    if userWon then "You won!" else "You lost!"
   def setTurn(turn: Int) =
     turnCount = turn
   def endGame() =
@@ -78,7 +77,8 @@ class Game {
 
 
   // Update methods
-
+  
+  // Resets the stage, character and skill/effect variables
   def reset() =
     currentStage = None
     userParty.clear()
@@ -86,12 +86,14 @@ class Game {
     skillsInBattle.clear()
     stageEffects.clear()
 
+  // Updates the user's and the AI's parties by removing dead characters
   def updateParties() = 
     val userDead = userParty.filter( c => c.isDead )
     val aiDead = aiParty.filter( c => c.isDead )
     userDead.foreach( d => currentUser.removeFromParty(d) )
     aiDead.foreach( d => currentEnemy.removeFromParty(d) )
     
+  // Handles stage effects
   def stageEffect() =
     currentStage match
       case Some(stage) =>
@@ -104,10 +106,10 @@ class Game {
           // select a random target every turn
           val randomChar = shuffle(bothParties).head
           stageEffects += stage.effect(randomChar)
+          
+      case None => new Exception("Stage is missing for stage effect")
 
-      case None => println("Stage is missing")
-
-    
+  // Update method that updates everything regarding game state and players' parties
   def update(): Unit =
     userLost = userParty.forall(_.isDead)
     userWon = aiParty.forall(_.isDead) && !userLost

@@ -15,12 +15,10 @@ class Menu extends VBox {
   alignment = Center
   spacing = 20
   
+  // Buttons
   val continue = new Button("Continue Game")
-
   val newGame = new Button("New Game")
-
   val saveGame = new Button("Save Game")
-
   val loadGame = new Button("Load Game")
 
   // Label for some info messages
@@ -28,6 +26,7 @@ class Menu extends VBox {
 
   val nodes = Array(continue, newGame, saveGame, loadGame, messages)
 
+  // Set min size for each node
   nodes.foreach(_.setMinSize(100, 40))
 
   children = nodes

@@ -6,6 +6,7 @@ import skills.*
 
 class Bob extends Character(
 
+  // Bob is a balanced fighter in every way
   name = "Bob",
   baseHp = 80,
   baseMp = 80,

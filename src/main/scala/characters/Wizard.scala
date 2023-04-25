@@ -6,6 +6,7 @@ import skills.*
 
 class Wizard extends Character(
 
+  // Wizard is a slow but powerful magic user
   name = "Wizard",
   baseHp = 80,
   baseMp = 150,

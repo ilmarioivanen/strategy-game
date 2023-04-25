@@ -6,6 +6,7 @@ import skills.*
 
 class Warrior extends Character(
 
+  // Warrior is slow but has a lot of hp and fair physical damage
   name = "Warrior",
   baseHp = 150,
   baseMp = 50,

@@ -15,7 +15,7 @@ trait Skill(
            
 ) {
 
-  // 
+  // Visual node or animation for the skill that could be shown by the gui
   val visual: Node
   
   // Method for calculating how much the skill user would deal damage
@@ -24,6 +24,7 @@ trait Skill(
   def dmg(user: Character): Int 
   
   // Effect of the skill, returns the skill, user and target
+  // If the visual is implemented then this would return it as well
   def effect(user: Character, target: Character): (Skill, Character, Character)
   
 }

@@ -6,6 +6,7 @@ import skills.*
 
 class Rogue extends Character(
 
+  // Rogue is a physical glass cannon
   name = "Rogue",
   baseHp = 80,
   baseMp = 50,

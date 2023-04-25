@@ -22,7 +22,7 @@ import scalafx.geometry.Pos.*
 
 // The class was made for switching between normal gameview and the menu.
 // The class got super crowded since all of the buttons have actions that alter the game state
-
+// Some of the code here should have and probably could have been placed to elsewhere (other gui classes etc.)
 class GameGui(game: Game) extends Scene {
 
   // Set up info from game
@@ -42,13 +42,12 @@ class GameGui(game: Game) extends Scene {
   val gameView = new GameView
 
   // Set up the main menu
-  // Needed to specify type
   val gameMenu: Menu = new Menu {
 
     continue.onAction = (event) =>
       if game.isStarted then
         openView(gameView)
-        // Gui needs to be updated
+        // Gui needs to be initially updated if save file is loaded
         updateGui()
         this.messages.text = ""
       else
@@ -61,6 +60,8 @@ class GameGui(game: Game) extends Scene {
       openView(stageSelect)
       this.messages.text = ""
 
+    // Actions when saving/loading the game
+    // Errors are caught here if something failed and an alert is shown
     saveGame.onAction = (event) =>
       try
         game.fileManager.saveGame("src/main/savefiles/save1.xml", game)
@@ -72,16 +73,16 @@ class GameGui(game: Game) extends Scene {
         game.fileManager.loadGame("src/main/savefiles/save1.xml", game)
       catch
         case e: Throwable => errorAlert("Loading the game failed.", e)
-
   }
 
   // Set up the stage select screen
   val stageSelect = new StageSelect {
-    // also a message if no stage is chosen
+    
     for stage <- this.stagesToButtons do
       stage._2.onAction = (event) =>
         game.selectStage(stage._1)
         this.part2.text = stage._1.name
+        
     this.next.onAction = (event) =>
       game.stage match
         case Some(stage) =>
@@ -92,10 +93,12 @@ class GameGui(game: Game) extends Scene {
   }
 
   // Set up the character select screen
-  // This was changed to method to avoid calling identical or old character objects,
+  // This was changed to method to avoid calling identical or old character objects
   // which happened if the old characterSelect was used after eg. winning a game
   def characterSelect = new CharacterSelect {
 
+    // Each button is linked with a (character, character, character)-tuple of same character classes
+    // This way picking a character adds a different instance of the class to user's party
     for character <- this.charToButtons do
       character._2.onAction = (event) =>
         val char =
@@ -156,10 +159,11 @@ class GameGui(game: Game) extends Scene {
     update()
 
   // This was originally a map.
+  // Creates an array of nodes and their respective characters in tuples
   def characterMap =
     characterNodes.zip(bothParties)
 
-  // Set up text info
+  // Sets up text info
   def setTextInfo() =
     val userInfo = gameView.userPartyInfo
     val enemyInfo = gameView.enemyPartyInfo
@@ -170,10 +174,11 @@ class GameGui(game: Game) extends Scene {
     for character <- enemyParty do
       enemyInfo.children += Label(s"${character.name}:   ${character.currentHp} HP    ${character.currentMp} MP")
 
+  // Sets up position of characters' sprites/nodes
+  // Positions are constant for now
   def setCharacters() =
     for character <- userParty do
-      val sprite = character.sprite
-      // set position of characters
+      val sprite = character.sprite 
       userParty.indexOf(character) match
         case 0 =>
           sprite.translateX = 50
@@ -202,6 +207,7 @@ class GameGui(game: Game) extends Scene {
       gameView.children += sprite
       characterNodes += sprite
 
+  // Sets an effect to a node to tell who's turn it is
   def inTurn() =
     // reset old turn effects
     gameView.children.foreach(_.setEffect(null))
@@ -218,8 +224,9 @@ class GameGui(game: Game) extends Scene {
       nodeInTurn match
         case Some(node) =>
           node.effect = turnEffect
-        case None => // This can happen when every node disappears at the same time
+        case None => // This can happen when every node disappears at the same time and isn't an exception
 
+  // Sets an effect to a node to tell who's targeted
   def targeted(targetNode: Node) =
     // reset old target effects
     gameView.children.foreach(_.setEffect(null))
@@ -232,6 +239,7 @@ class GameGui(game: Game) extends Scene {
     targetNode.effect = targetEffect
     lastTargetNode = targetNode
 
+  // Gets current target given by InputManager
   def target =
     InputManager.lastTarget match
       case Some(character) =>
@@ -243,7 +251,7 @@ class GameGui(game: Game) extends Scene {
       case None => enemyParty.head
       // the first enemy is attacked if the user hasn't clicked anything
 
-  // Alert when game is over
+  // Shows an alert when game is over
   def gameOverAlert =
     new Alert(AlertType.Information) {
         title = "Game Over!"
@@ -251,7 +259,7 @@ class GameGui(game: Game) extends Scene {
         contentText = "You are now going back to the menu screen."
       }.showAndWait()
 
-  // Method for file manager errors
+  // Method for showing file manager errors as alerts
   def errorAlert(msg: String, exception: Throwable) =
     new Alert(AlertType.Error) {
       title = "Error"
@@ -260,22 +268,25 @@ class GameGui(game: Game) extends Scene {
       exception.printStackTrace() // Print exception to console.
     }.showAndWait()
 
+  // Updates the background of the gameView
   def updateBackground() =
     game.stage match
       case Some(stage) => gameView.setBackground(stage.background)
       case None => println("No stage found")
 
+  // Updates the nodes in gameView
   def updateNodes() =
     characterNodes.foreach(n => gameView.children -= n)
     characterNodes.clear()
     setCharacters()
 
-  // Maybe a bit inefficient and unnecessary to clear everything in updateNodes() and updateInfo()
+  // Updates the text info of characters' and their stats
   def updateInfo() =
     gameView.userPartyInfo.children.clear()
     gameView.enemyPartyInfo.children.clear()
     setTextInfo()
 
+  // Updates buttons' texts to match the character's skills whos in turn
   def updateButtons() =
     // Only update buttons if possible
     if bothParties.nonEmpty then
@@ -284,7 +295,6 @@ class GameGui(game: Game) extends Scene {
       skill2Button.text = cTurn.skill2Name
       skill3Button.text = cTurn.skill3Name
       skill4Button.text = cTurn.skill4Name
-
 
   // skillInfo and updateSkills() are last minute solution that shows text descriptions of skills
   // also slapped last minute stage effects (descriptions) here
@@ -309,7 +319,7 @@ class GameGui(game: Game) extends Scene {
     skillInfo.text = allInfo
     game.skillsInBattle.clear()
 
-  // Update method that updates the gui
+  // Update method that updates the gui elements
   def updateGui() =
     updateBackground()
     updateSkills()
@@ -318,7 +328,7 @@ class GameGui(game: Game) extends Scene {
     updateNodes()
     inTurn()
 
-  // Update method that updates everything
+  // Update method that updates everything and checks if game is over
   def update() =
     game.update()
     updateGui()

@@ -4,9 +4,10 @@ import scalafx.scene.paint.Color._
 import scalafx.scene.shape.Rectangle
 import skills._
 
+// Class that defines game characters' variables and methods
 class Character(
 
-  // The class takes all the base values as constructors
+  // The class takes all the base values as constructor parameters
   val name: String,
   val baseHp: Int,
   val baseMp: Int,
@@ -16,7 +17,6 @@ class Character(
 
 ) {
   
-
   // "Character sprite", just a shape for now
   val currentSprite = new Rectangle {
     width = 50
@@ -24,9 +24,9 @@ class Character(
     fill = White
   }
 
-  // Variables for values
+  // Variables for character state and values (stats)
   private var dead = false
-  private var done = false
+  private var done = false // Set to true when the character has used it's turn
   private var hp = baseHp
   private var mp = baseMp
   private var atkDmg = baseAtkDmg
@@ -34,6 +34,7 @@ class Character(
   private var speed = baseSpeed
 
   // Methods that are same for every character
+  // Used for changing stats and getting current stats
   def isDead: Boolean =
     if hp <= 0 then
       dead = true
@@ -58,8 +59,8 @@ class Character(
   // Methods for changing the stats
   def changeHp(d: Int) = // Basically just same as takeDamage method but kept it for clarity
     hp += d
-  def heal(d: Int) =
-    hp = baseHp.min(currentMp + d) // healing can't go over base health
+  def heal(d: Int) = 
+    hp = baseHp.min(currentMp + d) // Healing can't go over base health
   def changeMp(d: Int) =
     mp += d
   def changeAtk(d: Int) =
@@ -71,7 +72,7 @@ class Character(
   def takeDamage(dmg: Int) =
     hp -= dmg
 
-  // Methods for setting stats (made for fileManager)
+  // Methods for setting stats (made for FileManager class)
   def setHp(s: Int) =
     hp = s
   def setMp(s: Int) =
@@ -86,10 +87,9 @@ class Character(
     done = b
 
   // Skills and their names
-  // These are the base skills that have to be overridden
+  // These are the base skills that have to be overridden for every character
   def skills: Array[Skill] = Array(new Slash, new Slash, new Slash, new Slash)
   
-
   val s1 = skills(0)
   val s2 = skills(1)
   val s3 = skills(2)

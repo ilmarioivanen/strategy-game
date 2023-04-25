@@ -6,6 +6,7 @@ import skills.*
 
 class Gigachu extends Character(
   
+  // Gigachu is fast and has high magic damage
   name = "Gigachu",
   baseHp = 75,
   baseMp = 150,
