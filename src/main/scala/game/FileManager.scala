@@ -34,7 +34,8 @@ class FileManager {
                            mp = {character.currentMp.toString}
                            atk = {character.currentAtk.toString}
                            mgc = {character.currentMgc.toString}
-                           speed = {character.currentSpeed.toString}>
+                           speed = {character.currentSpeed.toString} 
+                           usedTurn = {character.usedTurn.toString}>
               </character>
             }
             </user>
@@ -45,7 +46,8 @@ class FileManager {
                          mp = {character.currentMp.toString}
                          atk = {character.currentAtk.toString}
                          mgc = {character.currentMgc.toString}
-                         speed = {character.currentSpeed.toString}>
+                         speed = {character.currentSpeed.toString}
+                         usedTurn = {character.usedTurn.toString}>
               </character>
             }
             </enemy>
@@ -78,7 +80,8 @@ class FileManager {
                        charMp: String,
                        charAtk: String,
                        charMgc: String,
-                       charSpeed: String) = { // Brackets for clarity
+                       charSpeed: String,
+                       usedTurn: String) = { // Brackets for clarity
 
     val char = characters.find(_.name == charName)
     char match
@@ -91,6 +94,7 @@ class FileManager {
           c.setAtk(charAtk.toInt)
           c.setMgc(charMgc.toInt)
           c.setSpeed(charSpeed.toInt)
+          c.setDone(usedTurn.toBoolean)
           Success(c)
         catch
           case _ => Failure(new FileManagerException("Reading character data failed"))
@@ -142,7 +146,8 @@ class FileManager {
           val atk = (character \ "@atk").text
           val mgc = (character \ "@mgc").text
           val speed = (character \ "@speed").text
-          readChar(name, hp, mp, atk, mgc, speed) match
+          val done = (character \ "@usedTurn").text
+          readChar(name, hp, mp, atk, mgc, speed, done) match
             case Success(character) => userCharacters += character
             case Failure(exception) => throw exception
         }
@@ -154,7 +159,8 @@ class FileManager {
           val atk = (character \ "@atk").text
           val mgc = (character \ "@mgc").text
           val speed = (character \ "@speed").text
-          readChar(name, hp, mp, atk, mgc, speed) match
+          val done = (character \ "@usedTurn").text
+          readChar(name, hp, mp, atk, mgc, speed, done) match
             case Success(character) => enemyCharacters += character
             case Failure(exception) => throw exception
         }

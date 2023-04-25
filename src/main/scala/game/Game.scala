@@ -45,8 +45,17 @@ class Game {
   def bySpeed = bothParties.sortBy(_.currentSpeed).reverse // fastest first
   def turn = turnCount
   def characterTurn =
-    require(partySize > 0, "Party size cannot be negative!")
-    bySpeed(turnCount % partySize)
+    // Get all of the characters that haven't used their turn
+    // Get the first (fastest) if there is one
+    // ... otherwise reset turns
+    // Ending turns is done by using skills
+    // This way some skill can be casted multiple times
+    val notDone = bySpeed.filterNot(_.usedTurn)
+    if notDone.nonEmpty then
+      notDone.head
+    else
+      bothParties.foreach(_.resetTurn())
+      bySpeed.head
 
   def isStarted = gameStarted
   def isOver = gameOver

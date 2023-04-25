@@ -41,6 +41,8 @@ class Character(
     else
       dead = false
       dead
+  def resetTurn() =
+    done = false
   def endTurn() =
     done = true
   def hasMp(cost: Int) =
@@ -80,6 +82,8 @@ class Character(
     mgcDmg = s
   def setSpeed(s: Int) =
     speed = s
+  def setDone(b: Boolean) =
+    done = b
 
   // Skills and their names
   // These are the base skills that have to be overridden
