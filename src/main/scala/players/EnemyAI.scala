@@ -58,6 +58,8 @@ class EnemyAI(game: Game) extends Player {
         userParty.minBy(_.currentHp)
       else if skill.heals then
         aiParty.minBy(_.currentHp)
+      else if skill.nerfs then
+        userParty.maxBy(_.currentHp)
       else
         aiParty.maxBy(_.currentHp)
 
