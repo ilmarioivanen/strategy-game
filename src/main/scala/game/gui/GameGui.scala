@@ -77,12 +77,12 @@ class GameGui(game: Game) extends Scene {
 
   // Set up the stage select screen
   val stageSelect = new StageSelect {
-    
+
     for stage <- this.stagesToButtons do
       stage._2.onAction = (event) =>
         game.selectStage(stage._1)
         this.part2.text = stage._1.name
-        
+
     this.next.onAction = (event) =>
       game.stage match
         case Some(stage) =>
@@ -178,7 +178,7 @@ class GameGui(game: Game) extends Scene {
   // Positions are constant for now
   def setCharacters() =
     for character <- userParty do
-      val sprite = character.sprite 
+      val sprite = character.sprite
       userParty.indexOf(character) match
         case 0 =>
           sprite.translateX = 50

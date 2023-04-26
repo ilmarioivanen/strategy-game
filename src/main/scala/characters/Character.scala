@@ -102,7 +102,6 @@ class Character(
     else
       "#B"
 
-
   val skill1Name = s"${s1.name}\n${s1.mpCost} Mp  ${skillType(s1)}"
   val skill2Name = s"${s2.name}\n${s2.mpCost} Mp  ${skillType(s2)}"
   val skill3Name = s"${s3.name}\n${s3.mpCost} Mp  ${skillType(s3)}"
