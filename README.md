@@ -1,8 +1,7 @@
 ﻿**Strategy Game**
 
-Ilmari Oivanen 864301 Tietotekniikka
+Ilmari Oivanen
 
-1\. year 25.4.2023
 
 **General description**
 
