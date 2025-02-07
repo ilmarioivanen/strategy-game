@@ -45,6 +45,8 @@ _Example UI Screenshots (Upload separately and link below):_
 
 The game follows an object-oriented structure with an emphasis on extendability. Character, skill, and stage implementations allow for easy expansion.
 
+![Structure](images/uml.png) 
+
 ## AI Algorithm
 
 The AI opponent prioritizes its actions based on the following logic:
