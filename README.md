@@ -32,7 +32,8 @@ _Example UI Screenshots (Upload separately and link below):_
 ![Game Menu](images/menu.png)  
 ![Stage Selection](images/stage_select.png)  
 ![Character Selection](images/character_select.png)  
-![Game View](images/game_view.png)  
+![Game View](images/game_view.png)
+![Game View](images/game_over.png)  
 
 ### Gameplay
 - Select a stage and characters to start a match.
